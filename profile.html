@@ -25,22 +25,13 @@ body{
   padding:25px;
   border-radius:16px;
   box-shadow:0 5px 20px rgba(0,0,0,0.08);
-  text-align:center;
 }
 
-img{
-  width:100px;
-  border-radius:50%;
-  margin-bottom:15px;
+h2{
+  margin-bottom:10px;
 }
 
-button{
-  margin-top:20px;
-  padding:12px 20px;
-  border:none;
-  border-radius:10px;
-  background:#06C755;
-  color:white;
+p{
   font-size:16px;
 }
 </style>
@@ -49,16 +40,17 @@ button{
 <body>
 
 <div class="card">
-  <img id="avatar">
-  <h2 id="displayName"></h2>
-  <p id="userId"></p>
-  <button onclick="logout()">ออกจากระบบ</button>
+  <h2>ข้อมูลสมาชิก</h2>
+  <p><b>ชื่อ:</b> <span id="name"></span></p>
+  <p><b>เบอร์:</b> <span id="phone"></span></p>
 </div>
 
 <script>
 const liffId = "2009309078-VfLCE4sr";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzLf4AVlo1iBDjBy5jDKI9K_HYeabjoEVkx7m5Ew6TG8pkLenMG3VcYcX5r9rYXqLKf/exec";
 
 async function main(){
+
   await liff.init({ liffId });
 
   if(!liff.isLoggedIn()){
@@ -67,15 +59,26 @@ async function main(){
   }
 
   const profile = await liff.getProfile();
+  const userId = profile.userId;
 
-  document.getElementById("avatar").src = profile.pictureUrl;
-  document.getElementById("displayName").innerText = profile.displayName;
-  document.getElementById("userId").innerText = profile.userId;
-}
+  const formData = new URLSearchParams();
+  formData.append("action","checkUser");
+  formData.append("lineId",userId);
 
-function logout(){
-  liff.logout();
-  window.location.href = "./index.html";
+  const response = await fetch(scriptURL,{
+    method:"POST",
+    body:formData
+  });
+
+  const result = await response.json();
+
+  if(result.status === "found"){
+    document.getElementById("name").innerText = result.name;
+    document.getElementById("phone").innerText = result.phone;
+  }else{
+    window.location.href = "./index.html";
+  }
+
 }
 
 main();
