@@ -7,20 +7,17 @@
 </head>
 <body style="font-family:sans-serif;text-align:center;padding:20px;">
 
-  <h2>สมัครสมาชิก</h2>
+<h2>สมัครสมาชิก</h2>
 
-  <input type="text" id="name" placeholder="ชื่อ" 
-    style="width:80%;padding:10px;margin:8px;border-radius:8px;border:1px solid #ccc;"><br>
+<input type="text" id="name" placeholder="ชื่อ"
+style="width:80%;padding:10px;margin:8px;"><br>
 
-  <input type="text" id="phone" placeholder="เบอร์โทร" 
-    style="width:80%;padding:10px;margin:8px;border-radius:8px;border:1px solid #ccc;"><br>
+<input type="text" id="phone" placeholder="เบอร์โทร"
+style="width:80%;padding:10px;margin:8px;"><br>
 
-  <button id="submitBtn"
-    style="padding:10px 20px;border:none;border-radius:8px;background:#06C755;color:white;font-size:16px;">
-    สมัครสมาชิก
-  </button>
+<button id="btn">สมัครสมาชิก</button>
 
-  <p id="statusText" style="margin-top:15px;font-weight:bold;"></p>
+<p id="status"></p>
 
 <script>
 
@@ -28,72 +25,48 @@ const liffId = "2009309078-VfLCE4sr";
 const scriptURL = "https://script.google.com/macros/s/AKfycbyvq5NISyedW-aBRQBMffpxelFqSF8UXlPJIlUazxazk11IOq6KbfnW7kbORJGYu60/exec";
 
 async function main(){
-
   await liff.init({ liffId });
-
   if(!liff.isLoggedIn()){
     liff.login();
     return;
   }
-
   const profile = await liff.getProfile();
   window.userId = profile.userId;
 }
 
 main();
 
-document.getElementById("submitBtn").addEventListener("click", async () => {
+document.getElementById("btn").addEventListener("click", async ()=>{
 
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
-  const statusText = document.getElementById("statusText");
-  const btn = document.getElementById("submitBtn");
+  const status = document.getElementById("status");
 
   if(!name || !phone){
-    statusText.innerText = "กรอกข้อมูลให้ครบก่อน ❗";
+    status.innerText = "กรอกข้อมูลให้ครบ";
     return;
   }
 
-  btn.disabled = true;
-  statusText.innerText = "กำลังบันทึก...";
+  status.innerText = "กำลังบันทึก...";
 
-  try{
+  await fetch(scriptURL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      lineId:window.userId,
+      name:name,
+      phone:phone
+    })
+  });
 
-    const response = await fetch(scriptURL,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        lineId:window.userId,
-        name:name,
-        phone:phone
-      })
-    });
-
-    const result = await response.json();
-
-    if(result.status === "success"){
-      statusText.innerText = "สมัครสมาชิกสำเร็จ 🎉";
-      
-      setTimeout(()=>{
-        liff.closeWindow();
-      },1500);
-    }
-    else if(result.status === "duplicate"){
-      statusText.innerText = "คุณสมัครสมาชิกไปแล้ว ❗";
-      btn.disabled = true;
-    }
-
-  }catch(error){
-    statusText.innerText = "เกิดข้อผิดพลาด ❌";
-    btn.disabled = false;
-  }
+  status.innerText = "ส่งข้อมูลแล้ว ✔";
+  setTimeout(()=>liff.closeWindow(),1500);
 
 });
 
 </script>
-
 </body>
 </html>
-
