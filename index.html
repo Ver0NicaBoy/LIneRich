@@ -19,8 +19,7 @@
 
 <script>
 const liffId = "2009309078-VfLCE4sr";
-
-let userProfile = null;
+const scriptURL = "ใส่ URL Apps Script ของคุณ";
 
 async function main(){
   await liff.init({ liffId: liffId });
@@ -29,9 +28,6 @@ async function main(){
     liff.login();
     return;
   }
-
-  userProfile = await liff.getProfile();
-  console.log("LINE ID:", userProfile.userId);
 }
 
 main();
@@ -39,24 +35,32 @@ main();
 document.getElementById("form").addEventListener("submit", async function(e){
   e.preventDefault();
 
-  if (!userProfile) {
-    alert("กำลังโหลดข้อมูล LINE กรุณาลองใหม่");
+  await liff.init({ liffId: liffId });
+
+  if (!liff.isLoggedIn()) {
+    liff.login();
     return;
   }
 
+  const profile = await liff.getProfile();
+
   const data = {
-    lineId: userProfile.userId,
+    lineId: profile.userId,
     name: document.getElementById("name").value,
     phone: document.getElementById("phone").value
   };
 
-  console.log(data);
+  await fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
 
-  alert("สมัครสมาชิกสำเร็จ\nLINE ID: " + data.lineId);
+  alert("สมัครสมาชิกสำเร็จ 🎉");
 });
 </script>
 </body>
 </html>
+
 
 
 
