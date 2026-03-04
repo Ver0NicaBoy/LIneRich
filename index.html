@@ -85,18 +85,41 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbytSdgYUH2PnKiqFwMT89
 let userId = "";
 
 async function main(){
-  await liff.init({ liffId });
 
-  if(!liff.isLoggedIn()){
-    liff.login();
-    return;
+  try{
+
+    await liff.init({ liffId });
+
+    if(!liff.isLoggedIn()){
+      liff.login();
+      return;
+    }
+
+    const profile = await liff.getProfile();
+    userId = profile.userId;
+
+    // 🔥 เช็คก่อนว่าเป็นสมาชิกหรือยัง
+    const response = await fetch(`${scriptURL}?lineId=${userId}`);
+    const result = await response.json();
+
+    if(result.status === "found"){
+      // ถ้ามีข้อมูลแล้ว → ไปหน้า profile
+      window.location.href = "./profile.html";
+      return;
+    }
+
+    // ถ้า notfound → อยู่หน้าเดิม (แสดงฟอร์ม)
+
+  }catch(err){
+    console.log(err);
   }
 
-  const profile = await liff.getProfile();
-  userId = profile.userId;
 }
 
 main();
+
+
+// ================== ปุ่มสมัคร ==================
 
 document.getElementById("btn").addEventListener("click", async ()=>{
 
@@ -129,11 +152,18 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
     if(result.status === "success"){
       status.innerText = "สมัครสำเร็จ 🎉";
-      setTimeout(()=>liff.closeWindow(),1500);
+
+      // 🔥 สมัครเสร็จ → ไป profile เลย
+      setTimeout(()=>{
+        window.location.href = "./profile.html";
+      },1200);
+
     }
     else if(result.status === "duplicate"){
       status.innerText = "คุณสมัครไปแล้ว ❗";
-      btn.disabled = true;
+      setTimeout(()=>{
+        window.location.href = "./profile.html";
+      },1000);
     }
     else{
       status.innerText = "เกิดข้อผิดพลาดจากระบบ";
@@ -150,5 +180,6 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
 </body>
 </html>
+
 
 
