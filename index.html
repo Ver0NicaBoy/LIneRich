@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สมัครสมาชิก</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#00c6ff,#0072ff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.card{
+  background:white;
+  width:90%;
+  max-width:380px;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  text-align:center;
+}
+
+h2{
+  margin-bottom:25px;
+  color:#333;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  font-size:16px;
+  transition:0.3s;
+}
+
+input:focus{
+  border-color:#0072ff;
+  outline:none;
+  box-shadow:0 0 5px rgba(0,114,255,0.4);
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#0072ff;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#005edc;
+}
+
+button:disabled{
+  background:#999;
+  cursor:not-allowed;
+}
+
+.loading{
+  font-size:14px;
+  color:#666;
+  margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>สมัครสมาชิก</h2>
+  <div class="loading" id="status">กำลังเชื่อมต่อ LINE...</div>
+
+  <form id="form">
+    <input type="text" id="name" placeholder="ชื่อ-นามสกุล" required>
+    <input type="tel" id="phone" placeholder="เบอร์โทร" required>
+    <button type="submit" disabled>สมัครสมาชิก</button>
+  </form>
+</div>
+
+<script>
+window.onload = async function(){
+
+  const liffId = "2009309078-VfLCE4sr";   // 👈 LIFF ID ของคุณ
+  const scriptURL = "วาง URL Google Apps Script ของคุณที่นี่"; // 👈 ใส่ URL
+
+  const form = document.getElementById("form");
+  const submitBtn = form.querySelector("button");
+  const statusText = document.getElementById("status");
+
+  let profile = null;
+
+  try{
+    await liff.init({ liffId });
+
+    if(!liff.isLoggedIn()){
+      liff.login();
+      return;
+    }
+
+    profile = await liff.getProfile();
+
+    statusText.innerText = "เชื่อมต่อสำเร็จ ✔";
+    submitBtn.disabled = false;
+
+  }catch(err){
+    statusText.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ LINE";
+    console.error(err);
+  }
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.innerText = "กำลังบันทึก...";
+
+    const data = {
+      lineId: profile.userId,
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value
+    };
+
+    await fetch(scriptURL,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(data)
+    });
+
+    alert("สมัครสมาชิกสำเร็จ 🎉");
+
+    submitBtn.innerText = "สมัครสมาชิก";
+    submitBtn.disabled = false;
+    form.reset();
+  });
+
+};
+</script>
+
+</body>
+</html>
