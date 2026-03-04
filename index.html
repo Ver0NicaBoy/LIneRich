@@ -98,17 +98,22 @@ async function main(){
     const profile = await liff.getProfile();
     userId = profile.userId;
 
-    // 🔥 เช็คก่อนว่าเป็นสมาชิกหรือยัง
-    const response = await fetch(`${scriptURL}?lineId=${userId}`);
+    // 🔍 เช็คสมาชิก
+    const formData = new URLSearchParams();
+    formData.append("action", "checkUser");
+    formData.append("lineId", userId);
+
+    const response = await fetch(scriptURL,{
+      method:"POST",
+      body: formData
+    });
+
     const result = await response.json();
 
     if(result.status === "found"){
-      // ถ้ามีข้อมูลแล้ว → ไปหน้า profile
       window.location.href = "./profile.html";
       return;
     }
-
-    // ถ้า notfound → อยู่หน้าเดิม (แสดงฟอร์ม)
 
   }catch(err){
     console.log(err);
@@ -119,8 +124,7 @@ async function main(){
 main();
 
 
-// ================== ปุ่มสมัคร ==================
-
+// สมัครสมาชิก
 document.getElementById("btn").addEventListener("click", async ()=>{
 
   const name = document.getElementById("name").value.trim();
@@ -139,6 +143,7 @@ document.getElementById("btn").addEventListener("click", async ()=>{
   try{
 
     const formData = new URLSearchParams();
+    formData.append("action", "register");
     formData.append("lineId", userId);
     formData.append("name", name);
     formData.append("phone", phone);
@@ -152,21 +157,15 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
     if(result.status === "success"){
       status.innerText = "สมัครสำเร็จ 🎉";
-
-      // 🔥 สมัครเสร็จ → ไป profile เลย
       setTimeout(()=>{
         window.location.href = "./profile.html";
       },1200);
-
     }
     else if(result.status === "duplicate"){
-      status.innerText = "คุณสมัครไปแล้ว ❗";
-      setTimeout(()=>{
-        window.location.href = "./profile.html";
-      },1000);
+      window.location.href = "./profile.html";
     }
     else{
-      status.innerText = "เกิดข้อผิดพลาดจากระบบ";
+      status.innerText = "เกิดข้อผิดพลาด";
       btn.disabled = false;
     }
 
@@ -180,6 +179,7 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
 </body>
 </html>
+
 
 
 
