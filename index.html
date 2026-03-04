@@ -85,9 +85,7 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbzLf4AVlo1iBDjBy5jDKI
 let userId = "";
 
 async function main(){
-
   try{
-
     await liff.init({ liffId });
 
     if(!liff.isLoggedIn()){
@@ -108,17 +106,7 @@ async function main(){
       body: formData
     });
 
-    const response = await fetch(scriptURL,{
-    method:"POST",
-    body: formData
-    });
-
-const result = await response.json();
-
-if(result.status === "found"){
-  window.location.href = "./profile.html";
-  return;
-}
+    const result = await response.json();
 
     if(result.status === "found"){
       window.location.href = "./profile.html";
@@ -126,15 +114,14 @@ if(result.status === "found"){
     }
 
   }catch(err){
-    console.log(err);
+    console.log("CHECK ERROR:", err);
   }
-
 }
 
 main();
 
 
-// สมัครสมาชิก
+// ================== สมัครสมาชิก ==================
 document.getElementById("btn").addEventListener("click", async ()=>{
 
   const name = document.getElementById("name").value.trim();
@@ -169,7 +156,7 @@ document.getElementById("btn").addEventListener("click", async ()=>{
       status.innerText = "สมัครสำเร็จ 🎉";
       setTimeout(()=>{
         window.location.href = "./profile.html";
-      },1200);
+      },1000);
     }
     else if(result.status === "duplicate"){
       window.location.href = "./profile.html";
@@ -180,6 +167,7 @@ document.getElementById("btn").addEventListener("click", async ()=>{
     }
 
   }catch(err){
+    console.log("REGISTER ERROR:", err);
     status.innerText = "เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ❌";
     btn.disabled = false;
   }
@@ -189,6 +177,7 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
 </body>
 </html>
+
 
 
 
