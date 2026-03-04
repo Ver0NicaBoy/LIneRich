@@ -18,14 +18,20 @@
 </form>
 
 <script>
-const liffId = "2009309078-VfLCE4sr";   // 👈 ใส่ตรงนี้
+const liffId = "2009309078-VfLCE4sr";
+
+let userProfile = null;
 
 async function main(){
   await liff.init({ liffId: liffId });
 
-  if(!liff.isLoggedIn()){
+  if (!liff.isLoggedIn()) {
     liff.login();
+    return;
   }
+
+  userProfile = await liff.getProfile();
+  console.log("LINE ID:", userProfile.userId);
 }
 
 main();
@@ -33,19 +39,23 @@ main();
 document.getElementById("form").addEventListener("submit", async function(e){
   e.preventDefault();
 
-  const profile = await liff.getProfile();
+  if (!userProfile) {
+    alert("กำลังโหลดข้อมูล LINE กรุณาลองใหม่");
+    return;
+  }
 
   const data = {
-    lineId: profile.userId,
+    lineId: userProfile.userId,
     name: document.getElementById("name").value,
     phone: document.getElementById("phone").value
   };
 
   console.log(data);
-  alert("สมัครสมาชิกสำเร็จ");
+
+  alert("สมัครสมาชิกสำเร็จ\nLINE ID: " + data.lineId);
 });
 </script>
-
 </body>
 </html>
+
 
