@@ -5,64 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>สมัครสมาชิก</title>
 
-<script src="https://script.google.com/u/0/home/projects/14hB9fHSwIc7QyCMuWschA09WghN5cuJzrtfrbI23zYgAy8xJTW-FsrsV/edit"></script>
-
 <style>
 body{
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg,#00c6ff,#0072ff);
+  font-family:sans-serif;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  height:100vh;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
 }
 
 .card{
-  background:white;
-  width:90%;
-  max-width:380px;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  background:#fff;
+  width:320px;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
   text-align:center;
 }
 
 h2{
-  margin-bottom:25px;
-  color:#333;
+  margin-bottom:10px;
 }
 
 input{
   width:100%;
-  padding:12px;
-  margin-bottom:15px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  font-size:16px;
-  transition:0.3s;
-}
-
-input:focus{
-  border-color:#0072ff;
-  outline:none;
-  box-shadow:0 0 5px rgba(0,114,255,0.4);
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:14px;
 }
 
 button{
   width:100%;
   padding:12px;
+  margin-top:10px;
   border:none;
   border-radius:10px;
   background:#0072ff;
   color:white;
-  font-size:16px;
+  font-size:15px;
   cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  background:#005edc;
 }
 
 button:disabled{
@@ -70,10 +55,10 @@ button:disabled{
   cursor:not-allowed;
 }
 
-.loading{
-  font-size:14px;
-  color:#666;
-  margin-bottom:10px;
+#status{
+  margin-top:10px;
+  font-size:13px;
+  color:#555;
 }
 </style>
 </head>
@@ -82,26 +67,24 @@ button:disabled{
 
 <div class="card">
   <h2>สมัครสมาชิก</h2>
-  <div class="loading" id="status">กำลังเชื่อมต่อ LINE...</div>
+  <div id="status">กำลังเชื่อมต่อ LINE...</div>
 
-  <form id="form">
-    <input type="text" id="name" placeholder="ชื่อ-นามสกุล" required>
-    <input type="tel" id="phone" placeholder="เบอร์โทร" required>
-    <button type="submit" disabled>สมัครสมาชิก</button>
-  </form>
+  <input type="text" id="name" placeholder="ชื่อ-นามสกุล">
+  <input type="text" id="phone" placeholder="เบอร์โทร">
+
+  <button id="submitBtn" onclick="submitForm()">สมัครสมาชิก</button>
 </div>
 
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
 <script>
-window.onload = async function(){
+const liffId = "2009309078-VfLCE4sr";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwvhbFKowZG3kbuKrxtG9t3ux2cH5NiRD64BrmNhu6uVKd8QYCcAXt-Aa6PC9Dgax_T/exec";
 
-  const liffId = "2009309078-VfLCE4sr";   // 👈 LIFF ID ของคุณ
-  const scriptURL = "วาง URL Google Apps Script ของคุณที่นี่"; // 👈 ใส่ URL
+let userId = null;
 
-  const form = document.getElementById("form");
-  const submitBtn = form.querySelector("button");
+async function initLIFF(){
   const statusText = document.getElementById("status");
-
-  let profile = null;
 
   try{
     await liff.init({ liffId });
@@ -111,45 +94,64 @@ window.onload = async function(){
       return;
     }
 
-    profile = await liff.getProfile();
+    const profile = await liff.getProfile();
+    userId = profile.userId;
 
-    statusText.innerText = "เชื่อมต่อสำเร็จ ✔";
-    submitBtn.disabled = false;
+    statusText.innerText = "เชื่อมต่อสำเร็จ: " + profile.displayName;
 
-  catch(err){
-  statusText.innerText = "Error: " + JSON.stringify(err);
-  console.log(err);
+  }catch(err){
+    statusText.innerText = "Error: " + err.message;
+    console.log(err);
+  }
 }
 
-  form.addEventListener("submit", async function(e){
-    e.preventDefault();
+async function submitForm(){
 
-    submitBtn.disabled = true;
-    submitBtn.innerText = "กำลังบันทึก...";
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const statusText = document.getElementById("status");
+  const btn = document.getElementById("submitBtn");
 
-    const data = {
-      lineId: profile.userId,
-      name: document.getElementById("name").value,
-      phone: document.getElementById("phone").value
-    };
+  if(!name || !phone){
+    statusText.innerText = "กรุณากรอกข้อมูลให้ครบ";
+    return;
+  }
 
-    await fetch(scriptURL,{
+  btn.disabled = true;
+  statusText.innerText = "กำลังบันทึกข้อมูล...";
+
+  try{
+
+    const response = await fetch(scriptURL,{
       method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(data)
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        lineId:userId,
+        name:name,
+        phone:phone
+      })
     });
 
-    alert("สมัครสมาชิกสำเร็จ 🎉");
+    const result = await response.json();
 
-    submitBtn.innerText = "สมัครสมาชิก";
-    submitBtn.disabled = false;
-    form.reset();
-  });
+    if(result.status === "success"){
+      statusText.innerText = "สมัครสมาชิกสำเร็จ 🎉";
+      btn.innerText = "สำเร็จแล้ว";
+    }else{
+      statusText.innerText = "เกิดข้อผิดพลาด";
+      btn.disabled = false;
+    }
 
-};
+  }catch(err){
+    statusText.innerText = "Error: " + err.message;
+    btn.disabled = false;
+  }
+}
+
+initLIFF();
 </script>
 
 </body>
-
 </html>
-
