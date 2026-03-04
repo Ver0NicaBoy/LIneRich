@@ -80,7 +80,7 @@ button{
 
 <script>
 const liffId = "2009309078-VfLCE4sr";
-const scriptURL = "https://script.google.com/macros/s/AKfycbxGs7Ucc1yWQcD58mcfl-7HNoA5jmE1PJ9-Ofm1VFSukKjO2v1C60-6VZB_SsP6XC9_/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzHj3jsb9iS0nARZd3_J0FNU_JlZRVMuNmz9G7kXnE6B9YtdgkwAVwBzvXkKSHxH7F-/exec";
 
 let userId = "";
 
@@ -115,16 +115,14 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
   try{
 
+    const formData = new URLSearchParams();
+    formData.append("lineId", userId);
+    formData.append("name", name);
+    formData.append("phone", phone);
+
     const response = await fetch(scriptURL,{
       method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        lineId:userId,
-        name:name,
-        phone:phone
-      })
+      body: formData
     });
 
     const result = await response.json();
@@ -138,7 +136,7 @@ document.getElementById("btn").addEventListener("click", async ()=>{
       btn.disabled = true;
     }
     else{
-      status.innerText = "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์";
+      status.innerText = "เกิดข้อผิดพลาดจากระบบ";
       btn.disabled = false;
     }
 
@@ -152,5 +150,3 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
 </body>
 </html>
-
-
