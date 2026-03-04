@@ -21,28 +21,29 @@
 const liffId = "2009309078-VfLCE4sr";
 const scriptURL = "ใส่ URL Apps Script ของคุณ";
 
-async function main(){
-  await liff.init({ liffId: liffId });
+let profile = null;
+const submitBtn = document.querySelector("button");
+
+submitBtn.disabled = true; // ปิดปุ่มก่อน
+
+async function initLIFF() {
+  await liff.init({ liffId });
 
   if (!liff.isLoggedIn()) {
     liff.login();
     return;
   }
+
+  profile = await liff.getProfile();
+
+  // เปิดปุ่มเมื่อโหลดเสร็จ
+  submitBtn.disabled = false;
 }
 
-main();
+initLIFF();
 
 document.getElementById("form").addEventListener("submit", async function(e){
   e.preventDefault();
-
-  await liff.init({ liffId: liffId });
-
-  if (!liff.isLoggedIn()) {
-    liff.login();
-    return;
-  }
-
-  const profile = await liff.getProfile();
 
   const data = {
     lineId: profile.userId,
@@ -52,6 +53,9 @@ document.getElementById("form").addEventListener("submit", async function(e){
 
   await fetch(scriptURL, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(data)
   });
 
@@ -60,6 +64,7 @@ document.getElementById("form").addEventListener("submit", async function(e){
 </script>
 </body>
 </html>
+
 
 
 
