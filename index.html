@@ -116,10 +116,10 @@ window.onload = async function(){
     statusText.innerText = "เชื่อมต่อสำเร็จ ✔";
     submitBtn.disabled = false;
 
-  }catch(err){
-    statusText.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อ LINE";
-    console.error(err);
-  }
+  catch(err){
+  statusText.innerText = "Error: " + JSON.stringify(err);
+  console.log(err);
+}
 
   form.addEventListener("submit", async function(e){
     e.preventDefault();
@@ -152,3 +152,4 @@ window.onload = async function(){
 </body>
 
 </html>
+
