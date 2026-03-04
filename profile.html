@@ -1,6 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>โปรไฟล์</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#f2f2f2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.card{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+img{
+  width:100px;
+  border-radius:50%;
+  margin-bottom:15px;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  background:#06C755;
+  color:white;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <img id="avatar">
+  <h2 id="displayName"></h2>
+  <p id="userId"></p>
+  <button onclick="logout()">ออกจากระบบ</button>
+</div>
+
 <script>
 const liffId = "2009309078-VfLCE4sr";
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 async function main(){
   await liff.init({ liffId });
@@ -11,20 +67,19 @@ async function main(){
   }
 
   const profile = await liff.getProfile();
-  const userId = profile.userId;
 
-  const response = await fetch(`${scriptURL}?lineId=${userId}`);
-  const result = await response.json();
+  document.getElementById("avatar").src = profile.pictureUrl;
+  document.getElementById("displayName").innerText = profile.displayName;
+  document.getElementById("userId").innerText = profile.userId;
+}
 
-  if(result.status === "found"){
-    document.getElementById("name").innerText = result.name;
-    document.getElementById("phone").innerText = result.phone;
-  }
-  else{
-    window.location.href = "index.html";
-  }
+function logout(){
+  liff.logout();
+  window.location.href = "./index.html";
 }
 
 main();
-
 </script>
+
+</body>
+</html>
