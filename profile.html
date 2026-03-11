@@ -27,36 +27,30 @@ body{
   box-shadow:0 5px 20px rgba(0,0,0,0.08);
 }
 
-h2{
-  margin-bottom:20px;
-}
-
 input{
   width:100%;
-  height:50px;
-  padding:12px;
-  margin-bottom:15px;
-  font-size:16px;
-  border-radius:12px;
+  height:45px;
+  margin-bottom:10px;
+  padding:10px;
+  border-radius:10px;
   border:1px solid #ddd;
 }
 
 button{
   width:100%;
-  height:50px;
+  height:45px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   background:#06C755;
   color:white;
-  font-size:18px;
+  font-size:16px;
   font-weight:bold;
   cursor:pointer;
+  margin-top:10px;
 }
 
-#status{
-  margin-top:10px;
-  text-align:center;
-  font-weight:bold;
+#editBox{
+  display:none;
 }
 </style>
 </head>
@@ -64,17 +58,23 @@ button{
 <body>
 
 <div class="card">
-  <h2>ข้อมูลสมาชิก</h2>
 
-  <p>ชื่อ</p>
-  <input type="text" id="name">
+<h2>ข้อมูลสมาชิก</h2>
 
-  <p>เบอร์โทร</p>
-  <input type="tel" id="phone">
+<p><b>ชื่อ:</b> <span id="name"></span></p>
+<p><b>เบอร์:</b> <span id="phone"></span></p>
 
-  <button onclick="save()">บันทึกข้อมูล</button>
+<button onclick="showEdit()">แก้ไขข้อมูล</button>
 
-  <div id="status"></div>
+<div id="editBox">
+
+<input type="text" id="editName">
+<input type="tel" id="editPhone">
+
+<button onclick="save()">บันทึกข้อมูล</button>
+
+</div>
+
 </div>
 
 <script>
@@ -108,8 +108,13 @@ async function main(){
   const result = await response.json();
 
   if(result.status === "found"){
-    document.getElementById("name").value = result.name;
-    document.getElementById("phone").value = result.phone;
+
+    document.getElementById("name").innerText = result.name;
+    document.getElementById("phone").innerText = result.phone;
+
+    document.getElementById("editName").value = result.name;
+    document.getElementById("editPhone").value = result.phone;
+
   }else{
     window.location.href = "./index.html";
   }
@@ -118,13 +123,14 @@ async function main(){
 
 main();
 
+function showEdit(){
+  document.getElementById("editBox").style.display = "block";
+}
 
 async function save(){
 
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-
-  const status = document.getElementById("status");
+  const name = document.getElementById("editName").value;
+  const phone = document.getElementById("editPhone").value;
 
   const formData = new URLSearchParams();
   formData.append("action","updateUser");
@@ -140,9 +146,8 @@ async function save(){
   const result = await response.json();
 
   if(result.status === "updated"){
-    status.innerText = "บันทึกข้อมูลสำเร็จ ✅";
-  }else{
-    status.innerText = "เกิดข้อผิดพลาด ❌";
+    alert("บันทึกสำเร็จ");
+    location.reload();
   }
 
 }
@@ -151,7 +156,3 @@ async function save(){
 
 </body>
 </html>
-
-</body>
-</html>
-
