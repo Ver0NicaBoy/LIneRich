@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#f2f2f2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.card{
+  width:100%;
+  max-width:420px;
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+button{
+  width:100%;
+  height:50px;
+  margin-top:10px;
+  border:none;
+  border-radius:12px;
+  background:#06C755;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2 id="welcome"></h2>
+
+<p>ยินดีต้อนรับเข้าสู่ระบบสมาชิก</p>
+
+<button onclick="goProfile()">โปรไฟล์</button>
+
+</div>
+
+<script>
+
+const liffId = "2009309078-VfLCE4sr";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxktMC7Tu7LrpTKhhQwe_2BqP-6bDSGPKVxzR_rS7nnFDcTxcjRdewCJIQ7dgwIEUcZ/exec";
+
+async function main(){
+
+  await liff.init({ liffId });
+
+  if(!liff.isLoggedIn()){
+    liff.login();
+    return;
+  }
+
+  const profile = await liff.getProfile();
+  const userId = profile.userId;
+
+  const formData = new URLSearchParams();
+  formData.append("action","checkUser");
+  formData.append("lineId",userId);
+
+  const response = await fetch(scriptURL,{
+    method:"POST",
+    body:formData
+  });
+
+  const result = await response.json();
+
+  if(result.status === "found"){
+    document.getElementById("welcome").innerText = "สวัสดี " + result.name;
+  }else{
+    window.location.href = "./index.html";
+  }
+
+}
+
+main();
+
+function goProfile(){
+  window.location.href = "./profile.html";
+}
+
+</script>
+
+</body>
+</html>
