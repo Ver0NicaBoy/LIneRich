@@ -47,13 +47,15 @@ font-size:18px;
 font-weight:bold;
 }
 
-/* CARD */
+/* CONTAINER */
 
 .container{
 padding:20px;
 max-width:420px;
 margin:auto;
 }
+
+/* CARD */
 
 .card{
 background:white;
@@ -67,7 +69,7 @@ box-shadow:0 4px 12px rgba(0,0,0,0.05);
 margin-top:0;
 }
 
-/* HEALTH */
+/* HEALTH GRID */
 
 .health-grid{
 display:grid;
@@ -86,6 +88,17 @@ text-align:center;
 font-size:20px;
 font-weight:bold;
 color:#06C755;
+}
+
+/* BMI STATUS */
+
+.bmi-status{
+margin-top:15px;
+padding:12px;
+border-radius:12px;
+background:#eefaf2;
+text-align:center;
+font-weight:bold;
 }
 
 /* MENU */
@@ -136,24 +149,28 @@ cursor:pointer;
 
 <div class="health-box">
 <div>น้ำหนัก</div>
-<div class="health-value">-- kg</div>
+<div class="health-value" id="weight">-- kg</div>
 </div>
 
 <div class="health-box">
 <div>ส่วนสูง</div>
-<div class="health-value">-- cm</div>
+<div class="health-value" id="height">-- cm</div>
 </div>
 
 <div class="health-box">
 <div>BMI</div>
-<div class="health-value">--</div>
+<div class="health-value" id="bmi">--</div>
 </div>
 
 <div class="health-box">
 <div>แคลอรี่</div>
-<div class="health-value">-- kcal</div>
+<div class="health-value" id="cal">-- kcal</div>
 </div>
 
+</div>
+
+<div class="bmi-status" id="bmiStatus">
+สถานะสุขภาพ : --
 </div>
 
 </div>
@@ -185,7 +202,9 @@ cursor:pointer;
 <script>
 
 const liffId = "2009309078-VfLCE4sr";
+
 const scriptURL = "https://script.google.com/macros/s/AKfycbyVg6IzNfDLsEIpPxbM5S_72SAkxxO7FKCv6F9u11VwHIIG6Js-QMskFKmd3x_d-Gx8/exec";
+
 
 async function main(){
 
@@ -201,9 +220,75 @@ const profile = await liff.getProfile();
 document.getElementById("name").innerText = profile.displayName;
 document.getElementById("pic").src = profile.pictureUrl;
 
+
+// =====================
+// โหลดข้อมูลสุขภาพ
+// =====================
+
+const formData = new URLSearchParams();
+formData.append("action","checkUser");
+formData.append("lineId",profile.userId);
+
+const res = await fetch(scriptURL,{
+method:"POST",
+body:formData
+});
+
+const data = await res.json();
+
+if(data.status === "found"){
+
+const weight = parseFloat(data.weight);
+const height = parseFloat(data.height);
+const bmi = parseFloat(data.bmi);
+
+document.getElementById("weight").innerText = weight + " kg";
+document.getElementById("height").innerText = height + " cm";
+document.getElementById("bmi").innerText = bmi;
+
+
+// =====================
+// สถานะ BMI
+// =====================
+
+let status = "";
+
+if(bmi < 18.5){
+status = "ผอม";
+}
+else if(bmi < 23){
+status = "ปกติ";
+}
+else if(bmi < 25){
+status = "ท้วม";
+}
+else{
+status = "อ้วน";
+}
+
+document.getElementById("bmiStatus").innerText =
+"สถานะสุขภาพ : " + status;
+
+
+// =====================
+// คำนวณแคลอรี่ (ง่ายๆ)
+// =====================
+
+const cal = Math.round(weight * 30);
+
+document.getElementById("cal").innerText =
+cal + " kcal";
+
+}
+
 }
 
 main();
+
+
+// =====================
+// MENU
+// =====================
 
 function goProfile(){
 window.location.href="./profile.html";
@@ -225,4 +310,3 @@ alert("หน้าแจ้งเตือน");
 
 </body>
 </html>
-
