@@ -49,6 +49,10 @@ button{
   margin-top:10px;
 }
 
+.back{
+  background:#999;
+}
+
 #editBox{
   display:none;
 }
@@ -63,13 +67,19 @@ button{
 
 <p><b>ชื่อ:</b> <span id="name"></span></p>
 <p><b>เบอร์:</b> <span id="phone"></span></p>
+<p><b>น้ำหนัก:</b> <span id="weight"></span> kg</p>
+<p><b>ส่วนสูง:</b> <span id="height"></span> cm</p>
 
 <button onclick="showEdit()">แก้ไขข้อมูล</button>
 
+<button class="back" onclick="goDashboard()">⬅ กลับหน้า Dashboard</button>
+
 <div id="editBox">
 
-<input type="text" id="editName">
-<input type="tel" id="editPhone">
+<input type="text" id="editName" placeholder="ชื่อ">
+<input type="tel" id="editPhone" placeholder="เบอร์โทร">
+<input type="number" id="editWeight" placeholder="น้ำหนัก (kg)">
+<input type="number" id="editHeight" placeholder="ส่วนสูง (cm)">
 
 <button onclick="save()">บันทึกข้อมูล</button>
 
@@ -80,7 +90,7 @@ button{
 <script>
 
 const liffId = "2009309078-VfLCE4sr";
-const scriptURL = "https://script.google.com/macros/s/AKfycbyVg6IzNfDLsEIpPxbM5S_72SAkxxO7FKCv6F9u11VwHIIG6Js-QMskFKmd3x_d-Gx8/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzd02nojjAkTlmFAjFJhxEIIiJBCWWWSutHXerUPEGFHQEn41-NDpOFka3kPgL-QkR8/exec";
 
 let userId = "";
 
@@ -111,9 +121,13 @@ async function main(){
 
     document.getElementById("name").innerText = result.name;
     document.getElementById("phone").innerText = result.phone;
+    document.getElementById("weight").innerText = result.weight;
+    document.getElementById("height").innerText = result.height;
 
     document.getElementById("editName").value = result.name;
     document.getElementById("editPhone").value = result.phone;
+    document.getElementById("editWeight").value = result.weight;
+    document.getElementById("editHeight").value = result.height;
 
   }else{
     window.location.href = "./index.html";
@@ -127,16 +141,24 @@ function showEdit(){
   document.getElementById("editBox").style.display = "block";
 }
 
+function goDashboard(){
+  window.location.href="./dashboard.html";
+}
+
 async function save(){
 
   const name = document.getElementById("editName").value;
   const phone = document.getElementById("editPhone").value;
+  const weight = document.getElementById("editWeight").value;
+  const height = document.getElementById("editHeight").value;
 
   const formData = new URLSearchParams();
   formData.append("action","updateUser");
   formData.append("lineId",userId);
   formData.append("name",name);
   formData.append("phone",phone);
+  formData.append("weight",weight);
+  formData.append("height",height);
 
   const response = await fetch(scriptURL,{
     method:"POST",
@@ -156,4 +178,3 @@ async function save(){
 
 </body>
 </html>
-
