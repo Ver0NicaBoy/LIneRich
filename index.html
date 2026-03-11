@@ -74,6 +74,10 @@ button{
   <input type="text" id="name" placeholder="ชื่อ - นามสกุล">
   <input type="tel" id="phone" placeholder="เบอร์โทรศัพท์">
 
+  <!-- เพิ่มข้อมูลสุขภาพ -->
+  <input type="number" id="weight" placeholder="น้ำหนัก (kg)">
+  <input type="number" id="height" placeholder="ส่วนสูง (cm)">
+
   <button id="btn">สมัครสมาชิก</button>
 
   <div id="status"></div>
@@ -100,7 +104,7 @@ async function main(){
     const profile = await liff.getProfile();
     userId = profile.userId;
 
-    // 🔍 เช็คสมาชิก
+    // เช็คสมาชิก
     const formData = new URLSearchParams();
     formData.append("action","checkUser");
     formData.append("lineId",userId);
@@ -112,7 +116,6 @@ async function main(){
 
     const result = await response.json();
 
-    // 👤 ถ้าเคยสมัครแล้ว → เข้า dashboard
     if(result.status === "found"){
       window.location.href = "./dashboard.html";
       return;
@@ -133,10 +136,13 @@ document.getElementById("btn").addEventListener("click", async ()=>{
 
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
+  const weight = document.getElementById("weight").value.trim();
+  const height = document.getElementById("height").value.trim();
+
   const status = document.getElementById("status");
   const btn = document.getElementById("btn");
 
-  if(!name || !phone){
+  if(!name || !phone || !weight || !height){
     status.innerText = "กรอกข้อมูลให้ครบ ❗";
     return;
   }
@@ -151,6 +157,8 @@ document.getElementById("btn").addEventListener("click", async ()=>{
     formData.append("lineId",userId);
     formData.append("name",name);
     formData.append("phone",phone);
+    formData.append("weight",weight);
+    formData.append("height",height);
 
     const response = await fetch(scriptURL,{
       method:"POST",
@@ -168,13 +176,11 @@ document.getElementById("btn").addEventListener("click", async ()=>{
       },1000);
 
     }
-
     else if(result.status === "duplicate"){
 
       window.location.href = "./dashboard.html";
 
     }
-
     else{
 
       status.innerText = "เกิดข้อผิดพลาด";
