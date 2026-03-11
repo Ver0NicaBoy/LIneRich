@@ -4,55 +4,183 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<title>Health Dashboard</title>
+
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
+
+*{
+box-sizing:border-box;
+font-family:sans-serif;
+}
+
 body{
-  margin:0;
-  font-family:sans-serif;
-  background:#f2f2f2;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
+margin:0;
+background:#f4f6f8;
+}
+
+/* HEADER */
+
+.header{
+background:#06C755;
+color:white;
+padding:25px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.profile img{
+width:50px;
+height:50px;
+border-radius:50%;
+}
+
+.name{
+font-size:18px;
+font-weight:bold;
+}
+
+/* CARD */
+
+.container{
+padding:20px;
+max-width:420px;
+margin:auto;
 }
 
 .card{
-  width:100%;
-  max-width:420px;
-  background:white;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.08);
-  text-align:center;
+background:white;
+border-radius:16px;
+padding:18px;
+margin-bottom:15px;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
-button{
-  width:100%;
-  height:50px;
-  margin-top:10px;
-  border:none;
-  border-radius:12px;
-  background:#06C755;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
+.card h3{
+margin-top:0;
 }
+
+/* HEALTH */
+
+.health-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.health-box{
+background:#f7f7f7;
+border-radius:12px;
+padding:15px;
+text-align:center;
+}
+
+.health-value{
+font-size:20px;
+font-weight:bold;
+color:#06C755;
+}
+
+/* MENU */
+
+.menu{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.menu button{
+height:55px;
+border:none;
+border-radius:12px;
+background:#06C755;
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
 </style>
-
 </head>
 
 <body>
 
+<div class="header">
+
+<div class="profile">
+<img id="pic">
+<div>
+<div class="name" id="name">กำลังโหลด...</div>
+<div>Health Dashboard</div>
+</div>
+</div>
+
+</div>
+
+<div class="container">
+
+<!-- HEALTH DATA -->
+
 <div class="card">
 
-<h2 id="welcome"></h2>
+<h3>ข้อมูลสุขภาพวันนี้</h3>
 
-<p>ยินดีต้อนรับเข้าสู่ระบบสมาชิก</p>
+<div class="health-grid">
+
+<div class="health-box">
+<div>น้ำหนัก</div>
+<div class="health-value">-- kg</div>
+</div>
+
+<div class="health-box">
+<div>ส่วนสูง</div>
+<div class="health-value">-- cm</div>
+</div>
+
+<div class="health-box">
+<div>BMI</div>
+<div class="health-value">--</div>
+</div>
+
+<div class="health-box">
+<div>แคลอรี่</div>
+<div class="health-value">-- kcal</div>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MENU -->
+
+<div class="card">
+
+<h3>เมนู</h3>
+
+<div class="menu">
 
 <button onclick="goProfile()">โปรไฟล์</button>
 
+<button onclick="goFood()">แนะนำอาหาร</button>
+
+<button onclick="goHistory()">ประวัติสุขภาพ</button>
+
+<button onclick="goNotify()">แจ้งเตือน</button>
+
 </div>
+
+</div>
+
+</div>
+
 
 <script>
 
@@ -61,39 +189,36 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbxktMC7Tu7LrpTKhhQwe_
 
 async function main(){
 
-  await liff.init({ liffId });
+await liff.init({liffId});
 
-  if(!liff.isLoggedIn()){
-    liff.login();
-    return;
-  }
+if(!liff.isLoggedIn()){
+liff.login();
+return;
+}
 
-  const profile = await liff.getProfile();
-  const userId = profile.userId;
+const profile = await liff.getProfile();
 
-  const formData = new URLSearchParams();
-  formData.append("action","checkUser");
-  formData.append("lineId",userId);
-
-  const response = await fetch(scriptURL,{
-    method:"POST",
-    body:formData
-  });
-
-  const result = await response.json();
-
-  if(result.status === "found"){
-    document.getElementById("welcome").innerText = "สวัสดี " + result.name;
-  }else{
-    window.location.href = "./index.html";
-  }
+document.getElementById("name").innerText = profile.displayName;
+document.getElementById("pic").src = profile.pictureUrl;
 
 }
 
 main();
 
 function goProfile(){
-  window.location.href = "./profile.html";
+window.location.href="./profile.html";
+}
+
+function goFood(){
+alert("หน้าแนะนำอาหาร");
+}
+
+function goHistory(){
+alert("หน้าประวัติสุขภาพ");
+}
+
+function goNotify(){
+alert("หน้าแจ้งเตือน");
 }
 
 </script>
