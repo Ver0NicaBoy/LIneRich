@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>สมัครสมาชิก</title>
+
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
@@ -79,13 +80,16 @@ button{
 </div>
 
 <script>
+
 const liffId = "2009309078-VfLCE4sr";
 const scriptURL = "https://script.google.com/macros/s/AKfycbxktMC7Tu7LrpTKhhQwe_2BqP-6bDSGPKVxzR_rS7nnFDcTxcjRdewCJIQ7dgwIEUcZ/exec";
 
 let userId = "";
 
 async function main(){
+
   try{
+
     await liff.init({ liffId });
 
     if(!liff.isLoggedIn()){
@@ -98,30 +102,33 @@ async function main(){
 
     // 🔍 เช็คสมาชิก
     const formData = new URLSearchParams();
-    formData.append("action", "checkUser");
-    formData.append("lineId", userId);
+    formData.append("action","checkUser");
+    formData.append("lineId",userId);
 
     const response = await fetch(scriptURL,{
       method:"POST",
-      body: formData
+      body:formData
     });
 
     const result = await response.json();
 
+    // 👤 ถ้าเคยสมัครแล้ว → เข้า dashboard
     if(result.status === "found"){
-      window.location.href = "./profile.html";
+      window.location.href = "./dashboard.html";
       return;
     }
 
   }catch(err){
-    console.log("CHECK ERROR:", err);
+    console.log("CHECK ERROR:",err);
   }
+
 }
 
 main();
 
 
-// ================== สมัครสมาชิก ==================
+// ================= สมัครสมาชิก =================
+
 document.getElementById("btn").addEventListener("click", async ()=>{
 
   const name = document.getElementById("name").value.trim();
@@ -140,53 +147,52 @@ document.getElementById("btn").addEventListener("click", async ()=>{
   try{
 
     const formData = new URLSearchParams();
-    formData.append("action", "register");
-    formData.append("lineId", userId);
-    formData.append("name", name);
-    formData.append("phone", phone);
+    formData.append("action","register");
+    formData.append("lineId",userId);
+    formData.append("name",name);
+    formData.append("phone",phone);
 
     const response = await fetch(scriptURL,{
       method:"POST",
-      body: formData
+      body:formData
     });
 
     const result = await response.json();
 
     if(result.status === "success"){
+
       status.innerText = "สมัครสำเร็จ 🎉";
+
       setTimeout(()=>{
-        window.location.href = "./profile.html";
+        window.location.href = "./dashboard.html";
       },1000);
+
     }
+
     else if(result.status === "duplicate"){
-      window.location.href = "./profile.html";
+
+      window.location.href = "./dashboard.html";
+
     }
+
     else{
+
       status.innerText = "เกิดข้อผิดพลาด";
       btn.disabled = false;
+
     }
 
   }catch(err){
-    console.log("REGISTER ERROR:", err);
+
+    console.log("REGISTER ERROR:",err);
     status.innerText = "เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ❌";
     btn.disabled = false;
+
   }
 
 });
+
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
