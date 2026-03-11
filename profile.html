@@ -28,11 +28,35 @@ body{
 }
 
 h2{
-  margin-bottom:10px;
+  margin-bottom:20px;
 }
 
-p{
+input{
+  width:100%;
+  height:50px;
+  padding:12px;
+  margin-bottom:15px;
   font-size:16px;
+  border-radius:12px;
+  border:1px solid #ddd;
+}
+
+button{
+  width:100%;
+  height:50px;
+  border:none;
+  border-radius:12px;
+  background:#06C755;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#status{
+  margin-top:10px;
+  text-align:center;
+  font-weight:bold;
 }
 </style>
 </head>
@@ -41,13 +65,24 @@ p{
 
 <div class="card">
   <h2>ข้อมูลสมาชิก</h2>
-  <p><b>ชื่อ:</b> <span id="name"></span></p>
-  <p><b>เบอร์:</b> <span id="phone"></span></p>
+
+  <p>ชื่อ</p>
+  <input type="text" id="name">
+
+  <p>เบอร์โทร</p>
+  <input type="tel" id="phone">
+
+  <button onclick="save()">บันทึกข้อมูล</button>
+
+  <div id="status"></div>
 </div>
 
 <script>
+
 const liffId = "2009309078-VfLCE4sr";
-const scriptURL = "https://script.google.com/macros/s/AKfycbzLf4AVlo1iBDjBy5jDKI9K_HYeabjoEVkx7m5Ew6TG8pkLenMG3VcYcX5r9rYXqLKf/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxktMC7Tu7LrpTKhhQwe_2BqP-6bDSGPKVxzR_rS7nnFDcTxcjRdewCJIQ7dgwIEUcZ/exec";
+
+let userId = "";
 
 async function main(){
 
@@ -59,7 +94,7 @@ async function main(){
   }
 
   const profile = await liff.getProfile();
-  const userId = profile.userId;
+  userId = profile.userId;
 
   const formData = new URLSearchParams();
   formData.append("action","checkUser");
@@ -73,8 +108,8 @@ async function main(){
   const result = await response.json();
 
   if(result.status === "found"){
-    document.getElementById("name").innerText = result.name;
-    document.getElementById("phone").innerText = result.phone;
+    document.getElementById("name").value = result.name;
+    document.getElementById("phone").value = result.phone;
   }else{
     window.location.href = "./index.html";
   }
@@ -82,7 +117,41 @@ async function main(){
 }
 
 main();
+
+
+async function save(){
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+
+  const status = document.getElementById("status");
+
+  const formData = new URLSearchParams();
+  formData.append("action","updateUser");
+  formData.append("lineId",userId);
+  formData.append("name",name);
+  formData.append("phone",phone);
+
+  const response = await fetch(scriptURL,{
+    method:"POST",
+    body:formData
+  });
+
+  const result = await response.json();
+
+  if(result.status === "updated"){
+    status.innerText = "บันทึกข้อมูลสำเร็จ ✅";
+  }else{
+    status.innerText = "เกิดข้อผิดพลาด ❌";
+  }
+
+}
+
 </script>
 
 </body>
 </html>
+
+</body>
+</html>
+
