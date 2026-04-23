@@ -1,311 +1,221 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Health Dashboard</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
 
-<title>Health Dashboard</title>
+        body {
+            margin: 0;
+            background: #f4f6f8;
+            /* เพิ่ม padding ด้านล่างเพื่อให้เนื้อหาไม่ถูกเมนูทับ */
+            padding-bottom: 80px; 
+        }
 
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+        /* HEADER - คงเดิม */
+        .header {
+            background: #06C755;
+            color: white;
+            padding: 25px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
 
-<style>
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-*{
-box-sizing:border-box;
-font-family:sans-serif;
-}
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
 
-body{
-margin:0;
-background:#f4f6f8;
-}
+        .name {
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-/* HEADER */
+        /* CONTAINER - คงเดิม */
+        .container {
+            padding: 20px;
+            max-width: 420px;
+            margin: auto;
+        }
 
-.header{
-background:#06C755;
-color:white;
-padding:25px;
-border-bottom-left-radius:25px;
-border-bottom-right-radius:25px;
-}
+        /* CARD - คงเดิม */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
 
-.profile{
-display:flex;
-align-items:center;
-gap:12px;
-}
+        .card-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
 
-.profile img{
-width:50px;
-height:50px;
-border-radius:50%;
-}
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
 
-.name{
-font-size:18px;
-font-weight:bold;
-}
+        /* BOTTOM NAVIGATION - ย้ายเมนูมาไว้ตรงนี้ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
 
-/* CONTAINER */
+        .nav-item {
+            text-align: center;
+            text-decoration: none;
+            color: #999;
+            flex: 1;
+        }
 
-.container{
-padding:20px;
-max-width:420px;
-margin:auto;
-}
+        .nav-item i {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
 
-/* CARD */
+        .nav-item span {
+            font-size: 10px;
+        }
 
-.card{
-background:white;
-border-radius:16px;
-padding:18px;
-margin-bottom:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.05);
-}
-
-.card h3{
-margin-top:0;
-}
-
-/* HEALTH GRID */
-
-.health-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.health-box{
-background:#f7f7f7;
-border-radius:12px;
-padding:15px;
-text-align:center;
-}
-
-.health-value{
-font-size:20px;
-font-weight:bold;
-color:#06C755;
-}
-
-/* BMI STATUS */
-
-.bmi-status{
-margin-top:15px;
-padding:12px;
-border-radius:12px;
-background:#eefaf2;
-text-align:center;
-font-weight:bold;
-}
-
-/* MENU */
-
-.menu{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.menu button{
-height:55px;
-border:none;
-border-radius:12px;
-background:#06C755;
-color:white;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-}
-
-</style>
+        .nav-item.active {
+            color: #06C755;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="header">
-
-<div class="profile">
-<img id="pic">
-<div>
-<div class="name" id="name">กำลังโหลด...</div>
-<div>Health Dashboard</div>
-</div>
-</div>
-
+    <div class="profile">
+        <img id="pic" src="">
+        <div>
+            <div class="name" id="name">Loading...</div>
+            <div id="bmiStatus" style="font-size:12px; opacity:0.8;">กำลังคำนวณ...</div>
+        </div>
+    </div>
 </div>
 
 <div class="container">
+    <div class="card">
+        <div class="card-title">น้ำหนักตัว</div>
+        <div class="card-value" id="weight">-- kg</div>
+    </div>
 
-<!-- HEALTH DATA -->
+    <div class="card">
+        <div class="card-title">ส่วนสูง</div>
+        <div class="card-value" id="height">-- cm</div>
+    </div>
 
-<div class="card">
+    <div class="card">
+        <div class="card-title">ดัชนีมวลกาย (BMI)</div>
+        <div class="card-value" id="bmi">--</div>
+    </div>
 
-<h3>ข้อมูลสุขภาพวันนี้</h3>
-
-<div class="health-grid">
-
-<div class="health-box">
-<div>น้ำหนัก</div>
-<div class="health-value" id="weight">-- kg</div>
+    <div class="card" style="background:#e8f5e9;">
+        <div class="card-title" style="color:#2e7d32;">พลังงานที่แนะนำต่อวัน</div>
+        <div class="card-value" id="calDisplay" style="color:#2e7d32;">-- kcal</div>
+    </div>
 </div>
 
-<div class="health-box">
-<div>ส่วนสูง</div>
-<div class="health-value" id="height">-- cm</div>
+<div class="bottom-nav">
+    <a href="#" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>หน้าหลัก</span>
+    </a>
+    <a href="#" onclick="goFood()" class="nav-item">
+        <i class="fas fa-utensils"></i>
+        <span>เพิ่มอาหาร</span>
+    </a>
+    <a href="#" onclick="goHistory()" class="nav-item">
+        <i class="fas fa-history"></i>
+        <span>ประวัติ</span>
+    </a>
+    <a href="#" onclick="goProfile()" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>โปรไฟล์</span>
+    </a>
 </div>
-
-<div class="health-box">
-<div>BMI</div>
-<div class="health-value" id="bmi">--</div>
-</div>
-
-<div class="health-box">
-<div>แคลอรี่</div>
-<div class="health-value" id="cal">-- kcal</div>
-</div>
-
-</div>
-
-<div class="bmi-status" id="bmiStatus">
-สถานะสุขภาพ : --
-</div>
-
-</div>
-
-
-<!-- MENU -->
-
-<div class="card">
-
-<h3>เมนู</h3>
-
-<div class="menu">
-
-<button onclick="goProfile()">โปรไฟล์</button>
-
-<button onclick="goFood()">แนะนำอาหาร</button>
-
-<button onclick="goHistory()">ประวัติสุขภาพ</button>
-
-<button onclick="goNotify()">แจ้งเตือน</button>
-
-</div>
-
-</div>
-
-</div>
-
 
 <script>
+    const liffId = "2009309078-VfLCE4sr";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzd02nojjAkTlmFAjFJhxEIIiJBCWWWSutHXerUPEGFHQEn41-NDpOFka3kPgL-QkR8/exec";
 
-const liffId = "2009309078-VfLCE4sr";
+    async function main() {
+        await liff.init({ liffId });
+        if (!liff.isLoggedIn()) {
+            liff.login();
+        } else {
+            const profile = await liff.getProfile();
+            document.getElementById("name").innerText = profile.displayName;
+            document.getElementById("pic").src = profile.pictureUrl;
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbzd02nojjAkTlmFAjFJhxEIIiJBCWWWSutHXerUPEGFHQEn41-NDpOFka3kPgL-QkR8/exec";
+            // โหลดข้อมูลสุขภาพ (ใช้ Logic เดิมของคุณ)
+            const formData = new URLSearchParams();
+            formData.append("action", "checkUser");
+            formData.append("lineId", profile.userId);
 
+            try {
+                const res = await fetch(scriptURL, { method: "POST", body: formData });
+                const data = await res.json();
 
-async function main(){
+                if (data.status === "found") {
+                    const weight = parseFloat(data.weight);
+                    const height = parseFloat(data.height);
+                    const bmi = parseFloat(data.bmi);
 
-await liff.init({liffId});
+                    document.getElementById("weight").innerText = weight + " kg";
+                    document.getElementById("height").innerText = height + " cm";
+                    document.getElementById("bmi").innerText = bmi.toFixed(1);
 
-if(!liff.isLoggedIn()){
-liff.login();
-return;
-}
+                    let status = "";
+                    if (bmi < 18.5) status = "ผอม";
+                    else if (bmi < 23) status = "ปกติ";
+                    else if (bmi < 25) status = "ท้วม";
+                    else status = "อ้วน";
 
-const profile = await liff.getProfile();
+                    document.getElementById("bmiStatus").innerText = "สถานะสุขภาพ : " + status;
+                    document.getElementById("calDisplay").innerText = Math.round(weight * 30) + " kcal";
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+    }
 
-document.getElementById("name").innerText = profile.displayName;
-document.getElementById("pic").src = profile.pictureUrl;
+    main();
 
-
-// =====================
-// โหลดข้อมูลสุขภาพ
-// =====================
-
-const formData = new URLSearchParams();
-formData.append("action","checkUser");
-formData.append("lineId",profile.userId);
-
-const res = await fetch(scriptURL,{
-method:"POST",
-body:formData
-});
-
-const data = await res.json();
-
-if(data.status === "found"){
-
-const weight = parseFloat(data.weight);
-const height = parseFloat(data.height);
-const bmi = parseFloat(data.bmi);
-
-document.getElementById("weight").innerText = weight + " kg";
-document.getElementById("height").innerText = height + " cm";
-document.getElementById("bmi").innerText = bmi;
-
-
-// =====================
-// สถานะ BMI
-// =====================
-
-let status = "";
-
-if(bmi < 18.5){
-status = "ผอม";
-}
-else if(bmi < 23){
-status = "ปกติ";
-}
-else if(bmi < 25){
-status = "ท้วม";
-}
-else{
-status = "อ้วน";
-}
-
-document.getElementById("bmiStatus").innerText =
-"สถานะสุขภาพ : " + status;
-
-
-// =====================
-// คำนวณแคลอรี่ (ง่ายๆ)
-// =====================
-
-const cal = Math.round(weight * 30);
-
-document.getElementById("cal").innerText =
-cal + " kcal";
-
-}
-
-}
-
-main();
-
-
-// =====================
-// MENU
-// =====================
-
-function goProfile(){
-window.location.href="./profile.html";
-}
-
-function goFood(){
-alert("หน้าแนะนำอาหาร");
-}
-
-function goHistory(){
-alert("หน้าประวัติสุขภาพ");
-}
-
-function goNotify(){
-alert("หน้าแจ้งเตือน");
-}
-
+    // ฟังก์ชันนำทาง (คงเดิม)
+    function goProfile() { window.location.href = "./profile.html"; }
+    function goFood() { alert("หน้าเพิ่มอาหาร"); }
+    function goHistory() { alert("หน้าประวัติ"); }
 </script>
 
 </body>
