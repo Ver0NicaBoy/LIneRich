@@ -8,11 +8,7 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  font-family:sans-serif;
-}
-
+*{box-sizing:border-box;font-family:sans-serif;}
 body{
   margin:0;
   background:#f2f2f2;
@@ -21,7 +17,6 @@ body{
   align-items:center;
   min-height:100vh;
 }
-
 .container{
   width:100%;
   max-width:420px;
@@ -30,12 +25,7 @@ body{
   border-radius:16px;
   box-shadow:0 5px 20px rgba(0,0,0,0.08);
 }
-
-h2{
-  text-align:center;
-  margin-bottom:20px;
-}
-
+h2{text-align:center;margin-bottom:20px;}
 input{
   width:100%;
   height:50px;
@@ -45,7 +35,6 @@ input{
   border-radius:12px;
   border:1px solid #ddd;
 }
-
 button{
   width:100%;
   height:52px;
@@ -57,7 +46,6 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
-
 #status{
   margin-top:15px;
   text-align:center;
@@ -73,27 +61,23 @@ button{
 
   <input type="text" id="name" placeholder="ชื่อ - นามสกุล">
   <input type="tel" id="phone" placeholder="เบอร์โทรศัพท์">
-
-  <!-- เพิ่มข้อมูลสุขภาพ -->
   <input type="number" id="weight" placeholder="น้ำหนัก (kg)">
   <input type="number" id="height" placeholder="ส่วนสูง (cm)">
+  <input type="date" id="birthdate">
 
   <button id="btn">สมัครสมาชิก</button>
-
   <div id="status"></div>
 </div>
 
 <script>
 
 const liffId = "2009309078-VfLCE4sr";
-const scriptURL = "https://script.google.com/macros/s/AKfycbzd02nojjAkTlmFAjFJhxEIIiJBCWWWSutHXerUPEGFHQEn41-NDpOFka3kPgL-QkR8/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycby-8J7gC8Jw1mSFWC3Jam3dQaFwEeo0jNW0FBeChEpS_l_X86aDzOHY_VU3QS6tot7e/exec";
 
 let userId = "";
 
 async function main(){
-
   try{
-
     await liff.init({ liffId });
 
     if(!liff.isLoggedIn()){
@@ -104,45 +88,43 @@ async function main(){
     const profile = await liff.getProfile();
     userId = profile.userId;
 
-    // เช็คสมาชิก
+    // เช็ค user
     const formData = new URLSearchParams();
     formData.append("action","checkUser");
     formData.append("lineId",userId);
 
-    const response = await fetch(scriptURL,{
+    const res = await fetch(scriptURL,{
       method:"POST",
       body:formData
     });
 
-    const result = await response.json();
+    const result = await res.json();
 
     if(result.status === "found"){
       window.location.href = "./dashboard.html";
-      return;
     }
 
   }catch(err){
-    console.log("CHECK ERROR:",err);
+    console.log(err);
   }
-
 }
 
 main();
 
 
-// ================= สมัครสมาชิก =================
-
+// ===== สมัคร =====
 document.getElementById("btn").addEventListener("click", async ()=>{
 
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const weight = document.getElementById("weight").value.trim();
   const height = document.getElementById("height").value.trim();
+  const birthdate = document.getElementById("birthdate").value;
 
   const status = document.getElementById("status");
   const btn = document.getElementById("btn");
 
-  if(!name || !phone || !weight || !height){
+  if(!name || !phone || !weight || !height || !birthdate){
     status.innerText = "กรอกข้อมูลให้ครบ ❗";
     return;
   }
@@ -159,49 +141,34 @@ document.getElementById("btn").addEventListener("click", async ()=>{
     formData.append("phone",phone);
     formData.append("weight",weight);
     formData.append("height",height);
+    formData.append("birthdate",birthdate); // ✅ ส่งวันเกิด
 
-    const response = await fetch(scriptURL,{
+    const res = await fetch(scriptURL,{
       method:"POST",
       body:formData
     });
 
-    const result = await response.json();
+    const result = await res.json();
 
     if(result.status === "success"){
-
       status.innerText = "สมัครสำเร็จ 🎉";
-
-      setTimeout(()=>{
-        window.location.href = "./dashboard.html";
-      },1000);
-
+      setTimeout(()=> window.location.href="./dashboard.html",1000);
     }
     else if(result.status === "duplicate"){
-
-      window.location.href = "./dashboard.html";
-
+      window.location.href="./dashboard.html";
     }
     else{
-
       status.innerText = "เกิดข้อผิดพลาด";
       btn.disabled = false;
-
     }
 
   }catch(err){
-
-    console.log("REGISTER ERROR:",err);
-    status.innerText = "เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ❌";
+    status.innerText = "เชื่อมต่อไม่ได้ ❌";
     btn.disabled = false;
-
   }
 
 });
 
 </script>
-
 </body>
 </html>
-
-
-
