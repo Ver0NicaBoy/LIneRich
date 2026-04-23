@@ -85,6 +85,51 @@
             border-right: 1px solid #eee;
         }
 
+        /* 🌟 CSS เพิ่มเติมสำหรับส่วนคำแนะนำโภชนาการ */
+        .advice-header {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .advice-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f4f6f8;
+        }
+
+        .advice-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .advice-icon {
+            font-size: 24px;
+            width: 40px;
+            text-align: center;
+        }
+
+        .advice-text {
+            flex: 1;
+        }
+
+        .advice-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .advice-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
         /* bottom nav */
         .bottom-nav {
             position: fixed;
@@ -150,6 +195,36 @@
         <div class="item">
             <div class="card-title">ดัชนีมวลกาย (BMI)</div>
             <div class="card-value" id="bmi">--</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="advice-header">
+            💡 คำแนะนำโภชนาการ
+        </div>
+        
+        <div class="advice-item">
+            <div class="advice-icon">🧂</div>
+            <div class="advice-text">
+                <div class="advice-title">ลดโซเดียม</div>
+                <div class="advice-desc">ควรบริโภคโซเดียมไม่เกิน 2,300 มก./วัน</div>
+            </div>
+        </div>
+
+        <div class="advice-item">
+            <div class="advice-icon">🥬</div>
+            <div class="advice-text">
+                <div class="advice-title">เพิ่มใยอาหาร</div>
+                <div class="advice-desc">ควรได้รับใยอาหาร 25-35 กรัม/วัน</div>
+            </div>
+        </div>
+
+        <div class="advice-item">
+            <div class="advice-icon">🐟</div>
+            <div class="advice-text">
+                <div class="advice-title">โอเมก้า 3</div>
+                <div class="advice-desc">ทานปลาอย่างน้อย 2 ครั้ง/สัปดาห์</div>
+            </div>
         </div>
     </div>
 </div>
