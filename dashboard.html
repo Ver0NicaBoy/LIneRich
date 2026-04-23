@@ -16,11 +16,9 @@
         body {
             margin: 0;
             background: #f4f6f8;
-            /* เพิ่ม padding ด้านล่างเพื่อให้เนื้อหาไม่ถูกเมนูทับ */
             padding-bottom: 80px; 
         }
 
-        /* HEADER - คงเดิม */
         .header {
             background: #06C755;
             color: white;
@@ -46,14 +44,12 @@
             font-weight: bold;
         }
 
-        /* CONTAINER - คงเดิม */
         .container {
             padding: 20px;
             max-width: 420px;
             margin: auto;
         }
 
-        /* CARD - คงเดิม */
         .card {
             background: white;
             border-radius: 15px;
@@ -69,12 +65,27 @@
         }
 
         .card-value {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             color: #333;
         }
 
-        /* BOTTOM NAVIGATION - ย้ายเมนูมาไว้ตรงนี้ */
+        /* ✅ ทำให้อยู่แถวเดียว */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .item {
+            flex: 1;
+        }
+
+        .item:not(:last-child) {
+            border-right: 1px solid #eee;
+        }
+
+        /* bottom nav */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -111,6 +122,7 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="header">
@@ -124,43 +136,50 @@
 </div>
 
 <div class="container">
-    <div class="card">
-        <div class="card-title">น้ำหนักตัว</div>
-        <div class="card-value" id="weight">-- kg</div>
-        <div class="card-title">ส่วนสูง</div>
-        <div class="card-value" id="height">-- cm</div>
-        <div class="card-title">ดัชนีมวลกาย (BMI)</div>
-        <div class="card-value" id="bmi">--</div>
-    </div>
+    <div class="card row">
+        <div class="item">
+            <div class="card-title">น้ำหนักตัว</div>
+            <div class="card-value" id="weight">-- kg</div>
+        </div>
 
+        <div class="item">
+            <div class="card-title">ส่วนสูง</div>
+            <div class="card-value" id="height">-- cm</div>
+        </div>
+
+        <div class="item">
+            <div class="card-title">ดัชนีมวลกาย (BMI)</div>
+            <div class="card-value" id="bmi">--</div>
+        </div>
+    </div>
 </div>
 
 <div class="bottom-nav">
-    <a href="#" class="nav-item active">
+    <a href="javascript:void(0)" class="nav-item active">
         <i class="fas fa-home"></i>
         <span>หน้าหลัก</span>
     </a>
-    <a href="#" onclick="goFood()" class="nav-item">
+    <a href="javascript:void(0)" onclick="goFood()" class="nav-item">
         <i class="fas fa-utensils"></i>
         <span>เพิ่มอาหาร</span>
     </a>
-    <a href="#" onclick="goMedicine()" class="nav-item">
+    <a href="javascript:void(0)" onclick="goMedicine()" class="nav-item">
         <i class="fas fa-pills"></i>
         <span>ยา</span>
     </a>
-    <a href="#" onclick="goActivity()" class="nav-item">
+    <a href="javascript:void(0)" onclick="goActivity()" class="nav-item">
         <i class="fas fa-running"></i>
         <span>กิจกรรม</span>
     </a>
-    <a href="#" onclick="goHistory()" class="nav-item">
+    <a href="javascript:void(0)" onclick="goHistory()" class="nav-item">
         <i class="fas fa-history"></i>
         <span>ประวัติ</span>
     </a>
-    <a href="#" onclick="goAnalyze()" class="nav-item">
+    <a href="javascript:void(0)" onclick="goAnalyze()" class="nav-item">
         <i class="fas fa-chart-line"></i>
         <span>วิเคราะห์</span>
     </a>
-    <a href="#" onclick="goProfile()" class="nav-item">
+    <a href="javascript:void(0)" onclick="goProfile()" class="nav-item">
         <i class="fas fa-user"></i>
         <span>โปรไฟล์</span>
     </a>
@@ -179,7 +198,6 @@
             document.getElementById("name").innerText = profile.displayName;
             document.getElementById("pic").src = profile.pictureUrl;
 
-            // โหลดข้อมูลสุขภาพ (ใช้ Logic เดิมของคุณ)
             const formData = new URLSearchParams();
             formData.append("action", "checkUser");
             formData.append("lineId", profile.userId);
@@ -204,7 +222,6 @@
                     else status = "อ้วน";
 
                     document.getElementById("bmiStatus").innerText = "สถานะสุขภาพ : " + status;
-                    document.getElementById("calDisplay").innerText = Math.round(weight * 30) + " kcal";
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -214,10 +231,23 @@
 
     main();
 
-    // ฟังก์ชันนำทาง (คงเดิม)
+    // ✅ เมนูเปลี่ยนสี
+    const navItems = document.querySelectorAll(".nav-item");
+
+    navItems.forEach(item => {
+        item.addEventListener("click", function () {
+            navItems.forEach(i => i.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // ฟังก์ชัน
     function goProfile() { window.location.href = "./profile.html"; }
     function goFood() { alert("หน้าเพิ่มอาหาร"); }
+    function goMedicine() { alert("หน้ายา"); }
+    function goActivity() { alert("หน้ากิจกรรม"); }
     function goHistory() { alert("หน้าประวัติ"); }
+    function goAnalyze() { alert("หน้าวิเคราะห์"); }
 </script>
 
 </body>
