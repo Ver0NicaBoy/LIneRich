@@ -44,7 +44,6 @@ button{
   background:#06C755;
   color:white;
   font-weight:bold;
-  cursor:pointer;
 }
 #status{
   margin-top:15px;
@@ -61,8 +60,11 @@ button{
 
   <input type="text" id="name" placeholder="ชื่อ - นามสกุล">
   <input type="tel" id="phone" placeholder="เบอร์โทรศัพท์">
+
   <input type="number" id="weight" placeholder="น้ำหนัก (kg)">
   <input type="number" id="height" placeholder="ส่วนสูง (cm)">
+
+  <!-- ✅ เพิ่มวันเกิด -->
   <input type="date" id="birthdate">
 
   <button id="btn">สมัครสมาชิก</button>
@@ -76,6 +78,21 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbzw7jfO5m7NKNdDgL2nQt
 
 let userId = "";
 
+// ✅ ฟังก์ชันคำนวณอายุ
+function calculateAge(birthdate){
+  const today = new Date();
+  const birth = new Date(birthdate);
+
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+
+  if(m < 0 || (m === 0 && today.getDate() < birth.getDate())){
+    age--;
+  }
+
+  return age;
+}
+
 async function main(){
   try{
     await liff.init({ liffId });
@@ -88,31 +105,32 @@ async function main(){
     const profile = await liff.getProfile();
     userId = profile.userId;
 
-    // เช็ค user
     const formData = new URLSearchParams();
     formData.append("action","checkUser");
     formData.append("lineId",userId);
 
-    const res = await fetch(scriptURL,{
+    const response = await fetch(scriptURL,{
       method:"POST",
       body:formData
     });
 
-    const result = await res.json();
+    const result = await response.json();
 
     if(result.status === "found"){
       window.location.href = "./dashboard.html";
+      return;
     }
 
   }catch(err){
-    console.log(err);
+    console.log("CHECK ERROR:",err);
   }
 }
 
 main();
 
 
-// ===== สมัคร =====
+// ================= สมัครสมาชิก =================
+
 document.getElementById("btn").addEventListener("click", async ()=>{
 
   const name = document.getElementById("name").value.trim();
@@ -129,6 +147,9 @@ document.getElementById("btn").addEventListener("click", async ()=>{
     return;
   }
 
+  // ✅ คำนวณอายุ
+  const age = calculateAge(birthdate);
+
   btn.disabled = true;
   status.innerText = "กำลังบันทึก...";
 
@@ -141,34 +162,42 @@ document.getElementById("btn").addEventListener("click", async ()=>{
     formData.append("phone",phone);
     formData.append("weight",weight);
     formData.append("height",height);
-    formData.append("birthdate",birthdate); // ✅ ส่งวันเกิด
+    formData.append("birthdate",birthdate); // ✅ เพิ่ม
+    formData.append("age",age);             // ✅ เพิ่ม
 
-    const res = await fetch(scriptURL,{
+    const response = await fetch(scriptURL,{
       method:"POST",
       body:formData
     });
 
-    const result = await res.json();
+    const result = await response.json();
+    console.log(result); // 🔍 debug
 
     if(result.status === "success"){
       status.innerText = "สมัครสำเร็จ 🎉";
-      setTimeout(()=> window.location.href="./dashboard.html",1000);
+
+      setTimeout(()=>{
+        window.location.href = "./dashboard.html";
+      },1000);
+
     }
     else if(result.status === "duplicate"){
-      window.location.href="./dashboard.html";
+      window.location.href = "./dashboard.html";
     }
     else{
-      status.innerText = "เกิดข้อผิดพลาด";
+      status.innerText = "ERROR: " + result.status;
       btn.disabled = false;
     }
 
   }catch(err){
-    status.innerText = "เชื่อมต่อไม่ได้ ❌";
+    console.log("REGISTER ERROR:",err);
+    status.innerText = "เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ❌";
     btn.disabled = false;
   }
 
 });
 
 </script>
+
 </body>
 </html>
