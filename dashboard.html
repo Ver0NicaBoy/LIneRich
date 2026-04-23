@@ -8,52 +8,107 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        * { box-sizing: border-box; font-family: sans-serif; }
-        body { margin: 0; background: #f4f6f8; padding-bottom: 80px; }
+        * {
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
 
-        /* HEADER */
+        body {
+            margin: 0;
+            background: #f4f6f8;
+            /* เพิ่ม padding ด้านล่างเพื่อให้เนื้อหาไม่ถูกเมนูทับ */
+            padding-bottom: 80px; 
+        }
+
+        /* HEADER - คงเดิม */
         .header {
-            background: #06C755; color: white; padding: 25px;
-            border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;
+            background: #06C755;
+            color: white;
+            padding: 25px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
         }
-        .profile { display: flex; align-items: center; gap: 12px; }
-        .profile img { width: 50px; height: 50px; border-radius: 50%; }
-        .name { font-size: 18px; font-weight: bold; }
 
-        .container { padding: 20px; max-width: 420px; margin: auto; }
-
-        /* RECORD BUTTONS SECTION */
-        .section-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; color: #333; }
-        .record-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px;
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .record-btn {
-            background: white; border: none; border-radius: 15px; padding: 15px 5px;
-            text-align: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: transform 0.1s;
-        }
-        .record-btn:active { transform: scale(0.95); }
-        .record-btn i { font-size: 20px; color: #06C755; margin-bottom: 8px; display: block; }
-        .record-btn span { font-size: 12px; color: #555; font-weight: bold; }
 
-        /* CARD */
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* CONTAINER - คงเดิม */
+        .container {
+            padding: 20px;
+            max-width: 420px;
+            margin: auto;
+        }
+
+        /* CARD - คงเดิม */
         .card {
-            background: white; border-radius: 15px; padding: 20px;
-            margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .card-title { font-size: 14px; color: #666; margin-bottom: 8px; }
-        .card-value { font-size: 22px; font-weight: bold; color: #333; }
 
-        /* BOTTOM NAV */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: white;
-            display: flex; justify-content: space-around; padding: 12px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000;
+        .card-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
         }
-        .nav-item { text-align: center; text-decoration: none; color: #999; flex: 1; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
-        .nav-item span { font-size: 10px; }
-        .nav-item.active { color: #06C755; }
+
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* BOTTOM NAVIGATION - ย้ายเมนูมาไว้ตรงนี้ */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-align: center;
+            text-decoration: none;
+            color: #999;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+        }
+
+        .nav-item.active {
+            color: #06C755;
+        }
     </style>
 </head>
 <body>
@@ -69,20 +124,14 @@
 </div>
 
 <div class="container">
-    <div class="section-title">บันทึกข้อมูลส่วนตัว</div>
-    <div class="record-grid">
-        <button class="record-btn" onclick="recordData('น้ำหนัก')">
-            <i class="fas fa-weight"></i>
-            <span>น้ำหนัก</span>
-        </button>
-        <button class="record-btn" onclick="recordData('ส่วนสูง')">
-            <i class="fas fa-ruler-vertical"></i>
-            <span>ส่วนสูง</span>
-        </button>
-        <button class="record-btn" onclick="recordData('รอบเอว')">
-            <i class="fas fa-tape"></i>
-            <span>รอบเอว</span>
-        </button>
+    <div class="card">
+        <div class="card-title">น้ำหนักตัว</div>
+        <div class="card-value" id="weight">-- kg</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">ส่วนสูง</div>
+        <div class="card-value" id="height">-- cm</div>
     </div>
 
     <div class="card">
@@ -97,15 +146,27 @@
 </div>
 
 <div class="bottom-nav">
-    <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>หน้าหลัก</span></a>
-    <a href="#" onclick="goFood()" class="nav-item"><i class="fas fa-utensils"></i><span>เพิ่มอาหาร</span></a>
-    <a href="#" onclick="goHistory()" class="nav-item"><i class="fas fa-history"></i><span>ประวัติ</span></a>
-    <a href="#" onclick="goProfile()" class="nav-item"><i class="fas fa-user"></i><span>โปรไฟล์</span></a>
+    <a href="#" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>หน้าหลัก</span>
+    </a>
+    <a href="#" onclick="goFood()" class="nav-item">
+        <i class="fas fa-utensils"></i>
+        <span>เพิ่มอาหาร</span>
+    </a>
+    <a href="#" onclick="goHistory()" class="nav-item">
+        <i class="fas fa-history"></i>
+        <span>ประวัติ</span>
+    </a>
+    <a href="#" onclick="goProfile()" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>โปรไฟล์</span>
+    </a>
 </div>
 
 <script>
     const liffId = "2009309078-VfLCE4sr";
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzd02nojjAkTlmFAjFJhxEIIiJBCWWWSutHXerUPEGFHQEn41-NDpOFka3kPgL-QkR8/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycby-8J7gC8Jw1mSFWC3Jam3dQaFwEeo0jNW0FBeChEpS_l_X86aDzOHY_VU3QS6tot7e/exec";
 
     async function main() {
         await liff.init({ liffId });
@@ -115,35 +176,43 @@
             const profile = await liff.getProfile();
             document.getElementById("name").innerText = profile.displayName;
             document.getElementById("pic").src = profile.pictureUrl;
-            loadData(profile.userId);
+
+            // โหลดข้อมูลสุขภาพ (ใช้ Logic เดิมของคุณ)
+            const formData = new URLSearchParams();
+            formData.append("action", "checkUser");
+            formData.append("lineId", profile.userId);
+
+            try {
+                const res = await fetch(scriptURL, { method: "POST", body: formData });
+                const data = await res.json();
+
+                if (data.status === "found") {
+                    const weight = parseFloat(data.weight);
+                    const height = parseFloat(data.height);
+                    const bmi = parseFloat(data.bmi);
+
+                    document.getElementById("weight").innerText = weight + " kg";
+                    document.getElementById("height").innerText = height + " cm";
+                    document.getElementById("bmi").innerText = bmi.toFixed(1);
+
+                    let status = "";
+                    if (bmi < 18.5) status = "ผอม";
+                    else if (bmi < 23) status = "ปกติ";
+                    else if (bmi < 25) status = "ท้วม";
+                    else status = "อ้วน";
+
+                    document.getElementById("bmiStatus").innerText = "สถานะสุขภาพ : " + status;
+                    document.getElementById("calDisplay").innerText = Math.round(weight * 30) + " kcal";
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
         }
     }
 
-    async function loadData(userId) {
-        const formData = new URLSearchParams();
-        formData.append("action", "checkUser");
-        formData.append("lineId", userId);
-        try {
-            const res = await fetch(scriptURL, { method: "POST", body: formData });
-            const data = await res.json();
-            if (data.status === "found") {
-                const weight = parseFloat(data.weight);
-                const bmi = parseFloat(data.bmi);
-                document.getElementById("bmi").innerText = bmi.toFixed(1);
-                document.getElementById("calDisplay").innerText = Math.round(weight * 30) + " kcal";
-                
-                let status = bmi < 18.5 ? "ผอม" : bmi < 23 ? "ปกติ" : bmi < 25 ? "ท้วม" : "อ้วน";
-                document.getElementById("bmiStatus").innerText = "สถานะสุขภาพ : " + status;
-            }
-        } catch (e) { console.error(e); }
-    }
-
-    function recordData(type) {
-        // คุณสามารถเปลี่ยนเป็น liff.sendMessages หรือเปิดหน้าใหม่เพื่อกรอกข้อมูล
-        alert("บันทึกข้อมูล: " + type);
-    }
-
     main();
+
+    // ฟังก์ชันนำทาง (คงเดิม)
     function goProfile() { window.location.href = "./profile.html"; }
     function goFood() { alert("หน้าเพิ่มอาหาร"); }
     function goHistory() { alert("หน้าประวัติ"); }
