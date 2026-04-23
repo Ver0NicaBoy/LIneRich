@@ -6,27 +6,92 @@
 <title>โปรไฟล์</title>
 
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
+*{
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
 body{
   margin:0;
-  font-family:sans-serif;
-  background:#f2f2f2;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
+  background:#f4f6f8;
+  padding-bottom:80px;
 }
 
-.card{
-  width:100%;
-  max-width:420px;
-  background:white;
+/* HEADER */
+.header{
+  background:#06C755;
+  color:white;
   padding:25px;
-  border-radius:16px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+  border-bottom-left-radius:25px;
+  border-bottom-right-radius:25px;
+  text-align:center;
 }
 
+.header h2{
+  margin:0;
+}
+
+/* CONTAINER */
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom:20px;
+}
+
+.item{
+  margin-bottom:10px;
+}
+
+.label{
+  font-size:12px;
+  color:#888;
+}
+
+.value{
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  height:48px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:10px;
+  cursor:pointer;
+}
+
+.btn-main{
+  background:#06C755;
+  color:white;
+}
+
+.btn-back{
+  background:#ddd;
+}
+
+/* EDIT BOX */
+#editBox{
+  display:none;
+  margin-top:15px;
+}
+
+/* INPUT */
 input{
   width:100%;
   height:45px;
@@ -36,61 +101,110 @@ input{
   border:1px solid #ddd;
 }
 
-button{
-  width:100%;
-  height:45px;
-  border:none;
-  border-radius:10px;
-  background:#06C755;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:10px;
+/* NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+  box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 
-.back{
-  background:#999;
+.nav-item{
+  text-align:center;
+  color:#999;
+  flex:1;
 }
 
-#editBox{
-  display:none;
+.nav-item i{
+  font-size:20px;
+}
+
+.nav-item.active{
+  color:#06C755;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="header">
+  <h2>โปรไฟล์ผู้ใช้</h2>
+</div>
 
-<h2>ข้อมูลสมาชิก</h2>
+<div class="container">
 
-<p><b>ชื่อ:</b> <span id="name"></span></p>
-<p><b>เบอร์:</b> <span id="phone"></span></p>
-<p><b>น้ำหนัก:</b> <span id="weight"></span> kg</p>
-<p><b>ส่วนสูง:</b> <span id="height"></span> cm</p>
+  <div class="card">
 
-<button onclick="showEdit()">แก้ไขข้อมูล</button>
+    <div class="item">
+      <div class="label">ชื่อ</div>
+      <div class="value" id="name"></div>
+    </div>
 
-<button class="back" onclick="goDashboard()">⬅ กลับหน้า Dashboard</button>
+    <div class="item">
+      <div class="label">เบอร์โทร</div>
+      <div class="value" id="phone"></div>
+    </div>
 
-<div id="editBox">
+    <div class="item">
+      <div class="label">น้ำหนัก</div>
+      <div class="value"><span id="weight"></span> kg</div>
+    </div>
 
-<input type="text" id="editName" placeholder="ชื่อ">
-<input type="tel" id="editPhone" placeholder="เบอร์โทร">
-<input type="number" id="editWeight" placeholder="น้ำหนัก (kg)">
-<input type="number" id="editHeight" placeholder="ส่วนสูง (cm)">
+    <div class="item">
+      <div class="label">ส่วนสูง</div>
+      <div class="value"><span id="height"></span> cm</div>
+    </div>
 
-<button onclick="save()">บันทึกข้อมูล</button>
+    <!-- ✅ เพิ่มอายุ -->
+    <div class="item">
+      <div class="label">อายุ</div>
+      <div class="value"><span id="age"></span> ปี</div>
+    </div>
+
+    <button class="btn-main" onclick="showEdit()">แก้ไขข้อมูล</button>
+    <button class="btn-back" onclick="goDashboard()">⬅ กลับ</button>
+
+    <div id="editBox">
+      <input type="text" id="editName" placeholder="ชื่อ">
+      <input type="tel" id="editPhone" placeholder="เบอร์">
+      <input type="number" id="editWeight" placeholder="น้ำหนัก">
+      <input type="number" id="editHeight" placeholder="ส่วนสูง">
+
+      <button class="btn-main" onclick="save()">บันทึก</button>
+    </div>
+
+  </div>
 
 </div>
 
+<!-- NAV เหมือน dashboard -->
+<div class="bottom-nav">
+  <a href="./dashboard.html" class="nav-item">
+    <i class="fas fa-home"></i>
+  </a>
+  <a href="#" class="nav-item">
+    <i class="fas fa-utensils"></i>
+  </a>
+  <a href="#" class="nav-item">
+    <i class="fas fa-pills"></i>
+  </a>
+  <a href="#" class="nav-item">
+    <i class="fas fa-running"></i>
+  </a>
+  <a href="#" class="nav-item">
+    <i class="fas fa-user"></i>
+  </a>
 </div>
 
 <script>
 
 const liffId = "2009309078-VfLCE4sr";
-const scriptURL = "https://script.google.com/macros/s/AKfycbzd02nojjAkTlmFAjFJhxEIIiJBCWWWSutHXerUPEGFHQEn41-NDpOFka3kPgL-QkR8/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzw7jfO5m7NKNdDgL2nQtubEVt95EANROi3uXvRx2YGSAgbCzlY3r1AGppFn7VDYt5m/exec";
 
 let userId = "";
 
@@ -110,27 +224,26 @@ async function main(){
   formData.append("action","checkUser");
   formData.append("lineId",userId);
 
-  const response = await fetch(scriptURL,{
+  const res = await fetch(scriptURL,{
     method:"POST",
     body:formData
   });
 
-  const result = await response.json();
+  const data = await res.json();
 
-  if(result.status === "found"){
+  if(data.status === "found"){
 
-    document.getElementById("name").innerText = result.name;
-    document.getElementById("phone").innerText = result.phone;
-    document.getElementById("weight").innerText = result.weight;
-    document.getElementById("height").innerText = result.height;
+    document.getElementById("name").innerText = data.name;
+    document.getElementById("phone").innerText = data.phone;
+    document.getElementById("weight").innerText = data.weight;
+    document.getElementById("height").innerText = data.height;
+    document.getElementById("age").innerText = data.age; // ✅ ใช้อายุ
 
-    document.getElementById("editName").value = result.name;
-    document.getElementById("editPhone").value = result.phone;
-    document.getElementById("editWeight").value = result.weight;
-    document.getElementById("editHeight").value = result.height;
+    document.getElementById("editName").value = data.name;
+    document.getElementById("editPhone").value = data.phone;
+    document.getElementById("editWeight").value = data.weight;
+    document.getElementById("editHeight").value = data.height;
 
-  }else{
-    window.location.href = "./index.html";
   }
 
 }
@@ -160,12 +273,12 @@ async function save(){
   formData.append("weight",weight);
   formData.append("height",height);
 
-  const response = await fetch(scriptURL,{
+  const res = await fetch(scriptURL,{
     method:"POST",
     body:formData
   });
 
-  const result = await response.json();
+  const result = await res.json();
 
   if(result.status === "updated"){
     alert("บันทึกสำเร็จ");
