@@ -9,8 +9,6 @@
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<style>
-
 *{
     box-sizing:border-box;
     font-family:sans-serif;
@@ -21,6 +19,8 @@ body{
     background:#f4f6f8;
     padding-bottom:80px;
 }
+
+/* Header */
 
 .header{
     background:#06C755;
@@ -59,11 +59,15 @@ body{
     font-size:12px;
 }
 
+/* Container */
+
 .container{
     max-width:420px;
     margin:auto;
     padding:20px;
 }
+
+/* Card */
 
 .card{
     background:white;
@@ -78,6 +82,8 @@ body{
     font-weight:bold;
     margin-bottom:15px;
 }
+
+/* Form */
 
 label{
     display:block;
@@ -94,13 +100,24 @@ select{
     border-radius:10px;
     margin-bottom:15px;
     font-size:15px;
+    background:white;
 }
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#06C755;
+}
+
+/* Grid */
 
 .grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:10px;
 }
+
+/* Button */
 
 .btn{
     width:100%;
@@ -112,7 +129,14 @@ select{
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
+    transition:.2s;
 }
+
+.btn:hover{
+    opacity:.9;
+}
+
+/* Quick Food */
 
 .quick-grid{
     display:grid;
@@ -127,6 +151,11 @@ select{
     padding:15px;
     text-align:center;
     cursor:pointer;
+    transition:.2s;
+}
+
+.quick-item:hover{
+    background:#ecfff3;
 }
 
 .quick-item i{
@@ -135,6 +164,8 @@ select{
     margin-bottom:8px;
     color:#06C755;
 }
+
+/* Summary */
 
 .summary-grid{
     display:grid;
@@ -158,7 +189,10 @@ select{
 .summary-label{
     font-size:12px;
     color:#666;
+    margin-top:5px;
 }
+
+/* Food List */
 
 .food-row{
     display:flex;
@@ -172,7 +206,77 @@ select{
     border-bottom:none;
 }
 
-</style>
+.food-info strong{
+    color:#333;
+}
+
+.food-info small{
+    color:#777;
+}
+
+.food-cal{
+    font-weight:bold;
+    color:#06C755;
+}
+
+/* Bottom Navigation */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    padding:10px 0;
+    box-shadow:0 -2px 10px rgba(0,0,0,.1);
+    z-index:1000;
+}
+
+.nav-item{
+    text-align:center;
+    text-decoration:none;
+    color:#999;
+    flex:1;
+}
+
+.nav-item i{
+    font-size:20px;
+    display:block;
+    margin-bottom:4px;
+}
+
+.nav-item span{
+    font-size:10px;
+}
+
+.nav-item.active{
+    color:#06C755;
+}
+
+/* Mobile */
+
+@media(max-width:480px){
+
+    .container{
+        padding:15px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .summary-value{
+        font-size:18px;
+    }
+
+    .nav-item span{
+        font-size:9px;
+    }
+
+}
 </head>
 
 <body>
