@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เพิ่มอาหาร</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f4f6f8;
+    padding-bottom:80px;
+}
+
+.header{
+    background:#06C755;
+    color:white;
+    padding:25px;
+    border-bottom-left-radius:25px;
+    border-bottom-right-radius:25px;
+}
+
+.header h2{
+    margin:0;
+}
+
+.header p{
+    margin-top:8px;
+    opacity:.9;
+    font-size:14px;
+}
+
+.header-stats{
+    display:flex;
+    justify-content:space-around;
+    margin-top:20px;
+}
+
+.header-stats div{
+    text-align:center;
+}
+
+.header-stats strong{
+    display:block;
+    font-size:22px;
+}
+
+.header-stats span{
+    font-size:12px;
+}
+
+.container{
+    max-width:420px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.card-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    font-size:14px;
+    color:#555;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:15px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.btn{
+    width:100%;
+    border:none;
+    background:#06C755;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.quick-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.quick-item{
+    background:#f8f9fa;
+    border:1px solid #eee;
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.quick-item i{
+    display:block;
+    font-size:24px;
+    margin-bottom:8px;
+    color:#06C755;
+}
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.summary-item{
+    background:#f8f9fa;
+    border-radius:12px;
+    padding:15px;
+    text-align:center;
+}
+
+.summary-value{
+    font-size:22px;
+    font-weight:bold;
+    color:#06C755;
+}
+
+.summary-label{
+    font-size:12px;
+    color:#666;
+}
+
+.food-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+
+.food-row:last-child{
+    border-bottom:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <h2>🍱 เพิ่มอาหาร</h2>
+
+    <p>
+        บันทึกและติดตามโภชนาการประจำวัน
+    </p>
+
+    <div class="header-stats">
+
+        <div>
+            <strong id="mealCount">0</strong>
+            <span>มื้อวันนี้</span>
+        </div>
+
+        <div>
+            <strong id="totalCalories">0</strong>
+            <span>kcal</span>
+        </div>
+
+        <div>
+            <strong id="foodCount">0</strong>
+            <span>รายการ</span>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container">
+        <div class="card">
+
+        <div class="card-title">
+            ➕ เพิ่มรายการอาหาร
+        </div>
+
+        <label>มื้ออาหาร</label>
+
+        <select id="mealType">
+            <option>🌅 อาหารเช้า</option>
+            <option>☀️ อาหารกลางวัน</option>
+            <option>🌙 อาหารเย็น</option>
+            <option>🍪 ของว่าง</option>
+        </select>
+
+        <label>ชื่ออาหาร</label>
+
+        <input
+            type="text"
+            id="foodName"
+            placeholder="เช่น ข้าวกะเพราไก่">
+
+        <label>ปริมาณ</label>
+
+        <input
+            type="text"
+            id="amount"
+            placeholder="เช่น 1 จาน">
+
+        <div class="grid">
+
+            <div>
+                <label>แคลอรี่</label>
+                <input type="number" id="calories">
+            </div>
+
+            <div>
+                <label>ไขมัน (g)</label>
+                <input type="number" id="fat">
+            </div>
+
+            <div>
+                <label>โซเดียม (mg)</label>
+                <input type="number" id="sodium">
+            </div>
+
+            <div>
+                <label>ใยอาหาร (g)</label>
+                <input type="number" id="fiber">
+            </div>
+
+        </div>
+
+        <button class="btn" id="addFoodBtn">
+            ➕ เพิ่มอาหาร
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            ⚡ เพิ่มด่วน
+        </div>
+
+        <div class="quick-grid">
+
+            <div class="quick-item">
+                <i class="fas fa-bowl-rice"></i>
+                ข้าวกล้อง
+            </div>
+
+            <div class="quick-item">
+                <i class="fas fa-fish"></i>
+                ปลาย่าง
+            </div>
+
+            <div class="quick-item">
+                <i class="fas fa-leaf"></i>
+                สลัดผัก
+            </div>
+
+            <div class="quick-item">
+                <i class="fas fa-glass-water"></i>
+                น้ำผลไม้
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            📊 สรุปโภชนาการวันนี้
+        </div>
+
+        <div class="summary-grid">
+
+            <div class="summary-item">
+                <div class="summary-value" id="todayCalories">0</div>
+                <div class="summary-label">Calories</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-value" id="todaySodium">0</div>
+                <div class="summary-label">Sodium</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-value" id="todayFiber">0</div>
+                <div class="summary-label">Fiber</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-title">
+            🕒 รายการอาหารล่าสุด
+        </div>
+
+        <div id="foodList">
+
+            <div class="food-row">
+                <div>
+                    <strong>ยังไม่มีข้อมูล</strong>
+                    <br>
+                    <small>เพิ่มอาหารรายการแรกของวันนี้</small>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bottom-nav">
+
+    <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>หน้าหลัก</span>
+    </a>
+
+    <a href="food.html" class="nav-item active">
+        <i class="fas fa-utensils"></i>
+        <span>เพิ่มอาหาร</span>
+    </a>
+
+    <a href="#" class="nav-item">
+        <i class="fas fa-pills"></i>
+        <span>ยา</span>
+    </a>
+
+    <a href="#" class="nav-item">
+        <i class="fas fa-running"></i>
+        <span>กิจกรรม</span>
+    </a>
+
+    <a href="#" class="nav-item">
+        <i class="fas fa-history"></i>
+        <span>ประวัติ</span>
+    </a>
+
+    <a href="#" class="nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>วิเคราะห์</span>
+    </a>
+
+    <a href="#" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>โปรไฟล์</span>
+    </a>
+
+</div>
+
+<script>
+
+document.getElementById("addFoodBtn")
+.addEventListener("click", () => {
+
+    const foodName =
+    document.getElementById("foodName").value;
+
+    if(!foodName){
+        alert("กรุณากรอกชื่ออาหาร");
+        return;
+    }
+
+    alert("เพิ่มอาหารสำเร็จ 🎉");
+
+});
+
+</script>
+
+</body>
+</html>
