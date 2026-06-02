@@ -17,19 +17,19 @@
 body {
     margin: 0;
     background: #f8f9fa;
-    padding-bottom: 80px; /* เว้นที่ให้ bottom nav */
+    padding-bottom: 80px; 
 }
 
-/* 🔴 HEADER (ปรับให้เหมือนในรูป) */
-.header-red {
-    background: #ff5c5c;
+/* 🟢 HEADER (เปลี่ยนกลับเป็นสีเขียว) */
+.header-green {
+    background: #06C755;
     color: white;
     padding: 35px 20px 85px 20px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.header-red h1 {
+.header-green h1 {
     margin: 0;
     font-size: 22px;
     display: flex;
@@ -37,7 +37,7 @@ body {
     justify-content: space-between;
 }
 
-.header-red p {
+.header-green p {
     margin: 8px 0 0 0;
     font-size: 14px;
     opacity: 0.9;
@@ -48,7 +48,7 @@ body {
     margin: auto;
 }
 
-/* 👤 PROFILE CARD (ดันขึ้นไปทับ Header) */
+/* 👤 PROFILE CARD */
 .profile-card {
     background: white;
     border-radius: 20px;
@@ -111,7 +111,7 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.04);
 }
 
-/* 📊 ภาพรวมสุขภาพ (BMI & น้ำหนัก) */
+/* 📊 ภาพรวมสุขภาพ */
 .health-overview-row {
     display: flex;
     justify-content: space-between;
@@ -119,20 +119,11 @@ body {
     margin-bottom: 10px;
 }
 
-.overview-label {
-    font-size: 14px;
-    color: #555;
-}
-
+.overview-label { font-size: 14px; color: #555; }
 .overview-value.red { color: #ff5c5c; font-weight: bold; font-size: 18px; }
 .overview-value.blue { color: #3b82f6; font-weight: bold; font-size: 18px; }
 
-.progress-bg {
-    background: #e9ecef;
-    border-radius: 10px;
-    height: 12px;
-    margin: 10px 0;
-}
+.progress-bg { background: #e9ecef; border-radius: 10px; height: 12px; margin: 10px 0; }
 .progress-fill.red { background: #ff5c5c; height: 100%; border-radius: 10px; width: 30%; }
 .progress-fill.blue { background: #3b82f6; height: 100%; border-radius: 10px; width: 80%; }
 
@@ -146,57 +137,35 @@ body {
     display: inline-block;
 }
 
-.target-subtext {
-    font-size: 12px;
-    color: #888;
-    text-align: right;
-    display: block;
-}
-.diff-subtext {
-    font-size: 11px;
-    color: #888;
-    text-align: center;
-    margin-top: 10px;
-}
+.target-subtext { font-size: 12px; color: #888; text-align: right; display: block; }
+.diff-subtext { font-size: 11px; color: #888; text-align: center; margin-top: 10px; }
 
-/* 🎯 เป้าหมายสุขภาพ (Grid) */
+/* 🎯 เป้าหมายสุขภาพ */
 .goals-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
     margin: 0 20px 15px;
 }
-.goal-card {
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-}
+.goal-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
 .goal-icon { font-size: 24px; margin-bottom: 5px; }
 .goal-label { font-size: 12px; color: #666; margin-bottom: 5px; }
 .goal-value.green { color: #10b981; font-weight: bold; font-size: 16px; }
 .goal-value.orange { color: #f97316; font-weight: bold; font-size: 16px; }
 
 /* 🩺 ข้อมูลทางการแพทย์ */
-.med-info-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-.med-icon {
-    font-size: 24px;
-    color: #888;
-}
+.med-info-row { display: flex; align-items: center; gap: 15px; }
+.med-icon { font-size: 24px; color: #888; }
 
-/* ⚖️ อัปเดตน้ำหนัก */
+/* ⚖️ อัปเดตน้ำหนัก & INPUTS */
 .input-label {
     font-size: 13px;
     color: #555;
     margin-bottom: 8px;
     display: block;
+    text-align: left;
 }
-input[type="number"] {
+input {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #ddd;
@@ -204,12 +173,13 @@ input[type="number"] {
     font-size: 16px;
     margin-bottom: 15px;
     outline: none;
+    font-family: inherit;
 }
-input[type="number"]:focus { border-color: #ff5c5c; }
+input:focus { border-color: #06C755; } /* เปลี่ยนสีขอบเป็นเขียวตอนกดพิมพ์ */
 
 .btn-update {
     width: 100%;
-    background: #ff5c5c;
+    background: #06C755; /* เปลี่ยนปุ่มเป็นสีเขียว */
     color: white;
     border: none;
     padding: 15px;
@@ -219,23 +189,81 @@ input[type="number"]:focus { border-color: #ff5c5c; }
     cursor: pointer;
 }
 
-/* ⚙️ การจัดการ (แก้ไขโปรไฟล์) */
+/* ⚙️ การจัดการ */
 .manage-row {
     display: flex;
     align-items: center;
     gap: 15px;
     cursor: pointer;
+    transition: 0.2s;
 }
-.manage-icon { font-size: 20px; color: #ff9800; }
+.manage-row:active { transform: scale(0.98); }
+.manage-icon { font-size: 20px; color: #06C755; } /* เปลี่ยนไอคอนเป็นสีเขียว */
 .manage-text b { font-size: 15px; color: #333; display: block; margin-bottom: 2px;}
 .manage-text span { font-size: 12px; color: #888; }
+
+/* 📱 MODAL (เด้งขึ้นมาเป็นการ์ด) */
+.modal-overlay {
+    display: none; 
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(3px);
+}
+.modal-card {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 380px;
+    padding: 25px 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.modal-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.btn-cancel {
+    flex: 1;
+    background: #f1f3f5;
+    color: #555;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-save {
+    flex: 1;
+    background: #06C755; /* เปลี่ยนปุ่มบันทึกใน Modal เป็นสีเขียว */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 /* 🧭 NAV */
 .bottom-nav {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 0; left: 0; right: 0;
     background: white;
     display: flex;
     justify-content: space-around;
@@ -244,59 +272,38 @@ input[type="number"]:focus { border-color: #ff5c5c; }
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
 }
-
-.nav-item {
-    text-align: center;
-    text-decoration: none;
-    color: #999;
-    flex: 1;
-}
-
-.nav-item i {
-    font-size: 20px;
-    display: block;
-    margin-bottom: 4px;
-}
-
-.nav-item span {
-    font-size: 10px;
-}
-
-.nav-item.active {
-    color: #ff5c5c; /* เปลี่ยน active เป็นสีแดงตามตีม */
-}
+.nav-item { text-align: center; text-decoration: none; color: #999; flex: 1; }
+.nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
+.nav-item span { font-size: 10px; }
+.nav-item.active { color: #06C755; } /* ไอคอนเมนูที่กำลังเลือกเป็นสีเขียว */
 </style>
 </head>
 
 <body>
 
-<div class="header-red">
-    <h1>Personalised Health Tracker <span>💖</span></h1>
+<!-- 🟢 HEADER เปลี่ยนเป็นสีเขียว -->
+<div class="header-green">
+    <h1>Personalised Health Tracker <span>💚</span></h1>
     <p>สวัสดี <span id="displayUserName">คุณผู้ใช้</span></p>
 </div>
 
 <div class="container">
 
+    <!-- 👤 PROFILE CARD -->
     <div class="profile-card">
-        <div class="profile-img-placeholder" id="profilePicContainer">
-            👩
-            </div>
+        <div class="profile-img-placeholder" id="profilePicContainer">👩</div>
         <div class="profile-name" id="name">กำลังโหลด...</div>
         <div class="profile-age"><span id="age">--</span> ปี</div>
     </div>
 
-    <div class="section-title">
-        📊 ภาพรวมสุขภาพ
-    </div>
-    
+    <!-- 📊 ภาพรวมสุขภาพ -->
+    <div class="section-title">📊 ภาพรวมสุขภาพ</div>
     <div class="card-module">
         <div class="health-overview-row">
             <span class="overview-label">ดัชนีมวลกาย (BMI)</span>
             <span class="overview-value red" id="bmiValue">--</span>
         </div>
-        <div class="progress-bg">
-            <div class="progress-fill red" id="bmiProgress" style="width: 20%;"></div>
-        </div>
+        <div class="progress-bg"><div class="progress-fill red" id="bmiProgress" style="width: 20%;"></div></div>
         <div style="text-align: center; margin-top: 10px;">
             <span class="badge-green" id="bmiBadge">ปกติ</span>
         </div>
@@ -311,15 +318,12 @@ input[type="number"]:focus { border-color: #ff5c5c; }
             <span class="overview-label">เป้าหมาย</span>
             <span class="target-subtext">50 กก.</span>
         </div>
-        <div class="progress-bg">
-            <div class="progress-fill blue" style="width: 80%;"></div>
-        </div>
+        <div class="progress-bg"><div class="progress-fill blue" style="width: 80%;"></div></div>
         <div class="diff-subtext">ต่างจากเป้าหมาย: <span id="weightDiff">--</span> กก.</div>
     </div>
 
-    <div class="section-title">
-        🎯 เป้าหมายสุขภาพ
-    </div>
+    <!-- 🎯 เป้าหมายสุขภาพ -->
+    <div class="section-title">🎯 เป้าหมายสุขภาพ</div>
     <div class="goals-grid">
         <div class="goal-card">
             <div class="goal-icon">🥑</div>
@@ -333,9 +337,8 @@ input[type="number"]:focus { border-color: #ff5c5c; }
         </div>
     </div>
 
-    <div class="section-title">
-        📋 ข้อมูลทางการแพทย์
-    </div>
+    <!-- 🩺 ข้อมูลทางการแพทย์ -->
+    <div class="section-title">📋 ข้อมูลทางการแพทย์</div>
     <div class="card-module med-info-row">
         <div class="med-icon">📋</div>
         <div>
@@ -344,65 +347,90 @@ input[type="number"]:focus { border-color: #ff5c5c; }
         </div>
     </div>
 
-    <div class="section-title">
-        ⚖️ อัปเดตน้ำหนัก
-    </div>
+    <!-- ⚖️ อัปเดตน้ำหนักด่วน -->
+    <div class="section-title">⚖️ อัปเดตน้ำหนัก</div>
     <div class="card-module">
         <label class="input-label">น้ำหนักใหม่ (กก.)</label>
         <input type="number" id="updateWeightInput" placeholder="ระบุน้ำหนัก">
-        <button class="btn-update" onclick="updateWeightOnly()">อัปเดตน้ำหนัก</button>
+        <button class="btn-update" id="btnQuickUpdate" onclick="updateWeightOnly()">อัปเดตน้ำหนัก</button>
     </div>
 
-    <div class="section-title">
-        ⚙️ การจัดการ
-    </div>
-    <div class="card-module manage-row" onclick="alert('ระบบแก้ไขโปรไฟล์แบบเต็มยังไม่เปิดใช้งาน')">
+    <!-- ⚙️ การจัดการ -->
+    <div class="section-title">⚙️ การจัดการ</div>
+    <div class="card-module manage-row" onclick="openEditModal()">
         <div class="manage-icon">✏️</div>
         <div class="manage-text">
             <b>แก้ไขโปรไฟล์</b>
-            <span>แก้ไขข้อมูลส่วนตัวและเป้าหมาย</span>
+            <span>แก้ไขข้อมูลส่วนตัว เบอร์โทร ส่วนสูง ฯลฯ</span>
         </div>
     </div>
 
 </div>
 
+<!-- 🪟 MODAL แก้ไขโปรไฟล์แบบเต็ม (ซ่อนอยู่) -->
+<div class="modal-overlay" id="editModalOverlay">
+    <div class="modal-card">
+        <div class="modal-header">✏️ แก้ไขโปรไฟล์</div>
+        
+        <label class="input-label">ชื่อ-นามสกุล</label>
+        <input type="text" id="editName" placeholder="ชื่อของคุณ">
+
+        <label class="input-label">เบอร์โทรศัพท์</label>
+        <input type="tel" id="editPhone" placeholder="เบอร์โทรศัพท์">
+
+        <label class="input-label">ส่วนสูง (ซม.)</label>
+        <input type="number" id="editHeight" placeholder="ส่วนสูง">
+
+        <label class="input-label">น้ำหนัก (กก.)</label>
+        <input type="number" id="editWeightFull" placeholder="น้ำหนัก">
+
+        <div class="btn-group">
+            <button class="btn-cancel" onclick="closeEditModal()">ยกเลิก</button>
+            <button class="btn-save" id="btnSaveFull" onclick="saveFullProfile()">บันทึกข้อมูล</button>
+        </div>
+    </div>
+</div>
+
+<!-- 🧭 NAV -->
 <div class="bottom-nav">
     <a href="dashboard.html" class="nav-item">
-        <i class="fas fa-home"></i>
-        <span>หน้าหลัก</span>
+        <i class="fas fa-home"></i><span>หน้าหลัก</span>
     </a>
     <a href="food.html" class="nav-item">
-        <i class="fas fa-utensils"></i>
-        <span>อาหาร</span>
+        <i class="fas fa-utensils"></i><span>อาหาร</span>
     </a>
     <a href="med.html" class="nav-item">
-        <i class="fas fa-pills"></i>
-        <span>ยา</span>
+        <i class="fas fa-pills"></i><span>ยา</span>
     </a>
     <a href="active.html" class="nav-item">
-        <i class="fas fa-running"></i>
-        <span>กิจกรรม</span>
+        <i class="fas fa-running"></i><span>กิจกรรม</span>
     </a>
     <a href="history.html" class="nav-item">
-        <i class="fas fa-history"></i>
-        <span>ประวัติ</span>
+        <i class="fas fa-history"></i><span>ประวัติ</span>
     </a>
     <a href="graph.html" class="nav-item">
-        <i class="fas fa-chart-line"></i>
-        <span>วิเคราะห์</span>
+        <i class="fas fa-chart-line"></i><span>วิเคราะห์</span>
     </a>
     <a href="javascript:void(0)" class="nav-item active">
-        <i class="fas fa-user"></i>
-        <span>โปรไฟล์</span>
+        <i class="fas fa-user"></i><span>โปรไฟล์</span>
     </a>
 </div>
 
+<!-- ⚙️ SCRIPT -->
 <script>
 const liffId = "2009309078-VfLCE4sr";
 const scriptURL = "https://script.google.com/macros/s/AKfycbx4w0db-eykxa-GZv5PfWtLPNlRdb4KMXUMP5gQ9xr4cFVQTlMAAdyBOd9QFhjKzLaI/exec";
 
 let userId = "";
-let currentHeight = 0; // เก็บไว้คำนวณ BMI ตอนอัปเดตน้ำหนัก
+
+// ตัวแปรเก็บข้อมูลปัจจุบันเอาไว้ใช้งาน
+let userData = {
+    name: "",
+    phone: "",
+    weight: "",
+    height: "",
+    age: ""
+};
 
 async function main(){
     await liff.init({ liffId });
@@ -416,58 +444,52 @@ async function main(){
     userId = profile.userId;
     document.getElementById("displayUserName").innerText = profile.displayName;
     
-    // ใส่รูปโปรไฟล์จาก LINE
     if (profile.pictureUrl) {
         document.getElementById("profilePicContainer").innerHTML = `<img src="${profile.pictureUrl}" alt="profile">`;
     }
 
-    // โหลดข้อมูลจาก Google Sheet
     const formData = new URLSearchParams();
     formData.append("action", "checkUser");
     formData.append("lineId", userId);
 
     try {
-        const res = await fetch(scriptURL, {
-            method: "POST",
-            body: formData
-        });
+        const res = await fetch(scriptURL, { method: "POST", body: formData });
         const data = await res.json();
 
         if(data.status === "found"){
-            document.getElementById("name").innerText = data.name;
-            document.getElementById("age").innerText = data.age;
-            
-            const weight = parseFloat(data.weight);
-            const height = parseFloat(data.height);
-            currentHeight = height; // เก็บไว้
+            userData.name = data.name;
+            userData.phone = data.phone;
+            userData.weight = data.weight;
+            userData.height = data.height;
+            userData.age = data.age;
+
+            document.getElementById("name").innerText = userData.name;
+            document.getElementById("age").innerText = userData.age;
+            document.getElementById("currentWeight").innerText = userData.weight;
+            document.getElementById("updateWeightInput").value = userData.weight;
             
             // คำนวณ BMI
-            const heightM = height / 100;
-            const bmi = weight / (heightM * heightM);
+            const w = parseFloat(userData.weight);
+            const h = parseFloat(userData.height) / 100;
+            const bmi = w / (h * h);
             
-            // แสดงผล
-            document.getElementById("currentWeight").innerText = weight;
-            document.getElementById("updateWeightInput").value = weight;
             document.getElementById("bmiValue").innerText = bmi.toFixed(1);
-            
-            // อัปเดตสถานะ BMI
             updateBMIUI(bmi);
 
-            // คำนวณส่วนต่างเป้าหมาย (สมมติเป้าหมาย 50 กก.)
+            // คำนวณส่วนต่างเป้าหมาย
             const target = 50;
-            const diff = weight - target;
+            const diff = w - target;
             document.getElementById("weightDiff").innerText = (diff > 0 ? "+" : "") + diff.toFixed(1);
         }
     } catch (err) {
         console.error("Error loading data:", err);
-        document.getElementById("name").innerText = "เกิดข้อผิดพลาดในการโหลดข้อมูล";
+        document.getElementById("name").innerText = "เกิดข้อผิดพลาดในการโหลด";
     }
 }
 
 function updateBMIUI(bmi) {
     let status = "";
     let colorClass = "";
-    
     if(bmi < 18.5){ status = "น้ำหนักน้อย"; colorClass = "#f59e0b"; document.getElementById("bmiProgress").style.width = "10%"; }
     else if(bmi < 23){ status = "ปกติ"; colorClass = "#10b981"; document.getElementById("bmiProgress").style.width = "30%"; }
     else if(bmi < 25){ status = "ท้วม"; colorClass = "#f97316"; document.getElementById("bmiProgress").style.width = "60%"; }
@@ -476,55 +498,87 @@ function updateBMIUI(bmi) {
     const badge = document.getElementById("bmiBadge");
     badge.innerText = status;
     badge.style.color = colorClass;
-    badge.style.backgroundColor = colorClass + "20"; // ใส่ alpha เพื่อเป็นพื้นหลังอ่อนๆ
+    badge.style.backgroundColor = colorClass + "20"; 
 }
 
+// 📌 ฟังก์ชันอัปเดตแค่น้ำหนัก (Quick Update)
 async function updateWeightOnly(){
     const newWeight = document.getElementById("updateWeightInput").value;
-    
-    if(!newWeight || newWeight <= 0) {
-        alert("กรุณาระบุน้ำหนักให้ถูกต้อง");
-        return;
-    }
+    if(!newWeight || newWeight <= 0) return alert("กรุณาระบุน้ำหนักให้ถูกต้อง");
 
-    const btn = document.querySelector(".btn-update");
-    btn.innerText = "กำลังบันทึก...";
-    btn.disabled = true;
+    const btn = document.getElementById("btnQuickUpdate");
+    btn.innerText = "กำลังบันทึก..."; btn.disabled = true;
 
-    // หมายเหตุ: โค้ดฝั่ง Google Apps Script ของคุณต้องรับ action "updateUser" โดยไม่ต้องส่งทุกฟิลด์ หรือจะส่งฟิลด์อื่นไปด้วยค่าเดิมก็ได้
-    // ในที่นี้ผมจะจำลองการส่งไปเฉพาะที่จำเป็น (หรือคุณอาจต้องแก้ฝั่ง Apps script ให้รองรับการอัปเดตเฉพาะน้ำหนัก)
-    
     const formData = new URLSearchParams();
     formData.append("action", "updateUser");
     formData.append("lineId", userId);
-    formData.append("weight", newWeight);
-    
-    // ส่งข้อมูลเดิมกลับไปเผื่อ Apps Script บังคับกรอก
-    formData.append("name", document.getElementById("name").innerText);
-    formData.append("height", currentHeight);
-    
-    // หมายเหตุ: โค้ดเดิมคุณมีส่ง phone ด้วย แต่ใน UI ใหม่ไม่ได้แสดง phone หาก API บังคับ อาจจะพังได้ แนะนำให้เช็ค API ด้วยครับ
+    formData.append("name", userData.name);
+    formData.append("phone", userData.phone);
+    formData.append("height", userData.height);
+    formData.append("weight", newWeight); 
 
     try {
-        const res = await fetch(scriptURL, {
-            method: "POST",
-            body: formData
-        });
+        const res = await fetch(scriptURL, { method: "POST", body: formData });
+        const result = await res.json();
+        if(result.status === "updated"){
+            alert("อัปเดตน้ำหนักสำเร็จ!"); location.reload();
+        }
+    } catch(err) {
+        alert("เกิดข้อผิดพลาด"); btn.innerText = "อัปเดตน้ำหนัก"; btn.disabled = false;
+    }
+}
+
+// 📌 ควบคุม Modal Edit Profile
+function openEditModal() {
+    document.getElementById("editName").value = userData.name;
+    document.getElementById("editPhone").value = userData.phone;
+    document.getElementById("editHeight").value = userData.height;
+    document.getElementById("editWeightFull").value = userData.weight;
+    document.getElementById("editModalOverlay").style.display = "flex";
+}
+
+function closeEditModal() {
+    document.getElementById("editModalOverlay").style.display = "none";
+}
+
+// 📌 ฟังก์ชันบันทึกข้อมูลทั้งหมดจาก Modal
+async function saveFullProfile() {
+    const name = document.getElementById("editName").value;
+    const phone = document.getElementById("editPhone").value;
+    const height = document.getElementById("editHeight").value;
+    const weight = document.getElementById("editWeightFull").value;
+
+    if(!name || !phone || !height || !weight) {
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+        return;
+    }
+
+    const btn = document.getElementById("btnSaveFull");
+    btn.innerText = "กำลังบันทึก..."; btn.disabled = true;
+
+    const formData = new URLSearchParams();
+    formData.append("action", "updateUser");
+    formData.append("lineId", userId);
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("height", height);
+    formData.append("weight", weight);
+
+    try {
+        const res = await fetch(scriptURL, { method: "POST", body: formData });
         const result = await res.json();
 
         if(result.status === "updated"){
-            alert("อัปเดตน้ำหนักสำเร็จ!");
-            location.reload(); // รีโหลดหน้าเพื่อดึงข้อมูลใหม่มาแสดง
+            alert("บันทึกข้อมูลสำเร็จ!");
+            location.reload(); 
         } else {
             alert("บันทึกไม่สำเร็จ ลองอีกครั้ง");
-            btn.innerText = "อัปเดตน้ำหนัก";
-            btn.disabled = false;
+            btn.innerText = "บันทึกข้อมูล"; btn.disabled = false;
         }
     } catch(err) {
         console.error(err);
-        alert("เกิดข้อผิดพลาด");
-        btn.innerText = "อัปเดตน้ำหนัก";
-        btn.disabled = false;
+        alert("เกิดข้อผิดพลาดในการบันทึก");
+        btn.innerText = "บันทึกข้อมูล"; btn.disabled = false;
     }
 }
 
