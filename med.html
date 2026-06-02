@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>จัดการยา</title>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f4f6f8;
+    padding-bottom:90px;
+}
+
+.header{
+    background:#06C755;
+    color:white;
+    padding:25px;
+    border-bottom-left-radius:25px;
+    border-bottom-right-radius:25px;
+}
+
+.header h2{
+    margin:0;
+}
+
+.container{
+    max-width:420px;
+    margin:auto;
+    padding:15px;
+}
+
+.card{
+    background:#fff;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    color:#333;
+    margin-bottom:15px;
+}
+
+.tip-item{
+    display:flex;
+    gap:15px;
+    align-items:flex-start;
+    padding:12px 0;
+}
+
+.tip-icon{
+    font-size:24px;
+}
+
+.tip-title{
+    font-weight:bold;
+    color:#333;
+    margin-bottom:3px;
+}
+
+.tip-desc{
+    font-size:13px;
+    color:#666;
+}
+
+/* ====================
+   FORM
+==================== */
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-size:14px;
+    color:#555;
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:14px;
+    background:#fff;
+}
+
+textarea{
+    resize:none;
+    height:90px;
+}
+
+.row{
+    display:flex;
+    gap:10px;
+}
+
+.row .form-group{
+    flex:1;
+}
+
+.btn-add{
+    width:100%;
+    border:none;
+    background:#06C755;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-add:hover{
+    opacity:.9;
+}
+/* ====================
+   MEDICINE LIST
+==================== */
+
+.list-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.list-header h3{
+    margin:0;
+    color:#333;
+}
+
+.clear-btn{
+    color:#ff5252;
+    font-size:13px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.medicine-item{
+    border:1px solid #eee;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:10px;
+    position:relative;
+}
+
+.medicine-name{
+    font-size:18px;
+    font-weight:bold;
+    color:#333;
+}
+
+.medicine-time{
+    color:#06C755;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.medicine-detail{
+    margin-top:8px;
+    font-size:13px;
+    color:#666;
+    line-height:1.8;
+}
+
+.delete-btn{
+    position:absolute;
+    right:12px;
+    top:12px;
+    color:#ff5252;
+    cursor:pointer;
+}
+
+/* ====================
+   BOTTOM NAV
+==================== */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#fff;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    padding:8px 0;
+    box-shadow:0 -2px 10px rgba(0,0,0,.08);
+    z-index:1000;
+}
+
+.nav-item{
+    flex:1;
+    text-align:center;
+    text-decoration:none;
+    color:#999;
+    padding:8px 0;
+}
+
+.nav-item i{
+    display:block;
+    font-size:18px;
+    margin-bottom:4px;
+}
+
+.nav-item span{
+    font-size:10px;
+}
+
+.nav-item.active{
+    color:#06C755;
+}
+
+.nav-item.active i{
+    color:#06C755;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>💊 จัดการยา</h2>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="section-title">
+            💡 เคล็ดลับการทานยา 5 ข้อสำคัญ
+        </div>
+
+        <div class="tip-item">
+            <div class="tip-icon">⏰</div>
+            <div>
+                <div class="tip-title">ทานยาตรงเวลา</div>
+                <div class="tip-desc">
+                    ตั้งนาฬิกาเตือนไม่ให้ลืมทานยา
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-item">
+            <div class="tip-icon">🍽️</div>
+            <div>
+                <div class="tip-title">ปฏิบัติตามคำแนะนำ</div>
+                <div class="tip-desc">
+                    ทานก่อนอาหาร หลังอาหาร หรือพร้อมอาหารตามแพทย์สั่ง
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-item">
+            <div class="tip-icon">💧</div>
+            <div>
+                <div class="tip-title">ดื่มน้ำเปล่า</div>
+                <div class="tip-desc">
+                    ทานยาพร้อมน้ำเปล่า หลีกเลี่ยงเครื่องดื่มอื่น
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-item">
+            <div class="tip-icon">🚫</div>
+            <div>
+                <div class="tip-title">ไม่หยุดยาเอง</div>
+                <div class="tip-desc">
+                    ทานยาครบตามที่แพทย์กำหนด
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-item">
+            <div class="tip-icon">🌡️</div>
+            <div>
+                <div class="tip-title">เก็บยาให้ถูกต้อง</div>
+                <div class="tip-desc">
+                    เก็บในที่แห้ง เย็น และพ้นแสงแดด
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card">
+
+        <div class="section-title">
+            ➕ เพิ่มยา
+        </div>
+
+        <div class="form-group">
+            <label>ชื่อยา</label>
+            <input id="name" placeholder="เช่น Amlodipine">
+        </div>
+
+        <div class="row">
+
+            <div class="form-group">
+                <label>เวลาทานยา</label>
+                <input type="time" id="time">
+            </div>
+
+            <div class="form-group">
+                <label>ความถี่</label>
+                <select id="frequency">
+                    <option>ทุกวัน</option>
+                    <option>วันเว้นวัน</option>
+                    <option>ทุกสัปดาห์</option>
+                    <option>ตามอาการ</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>คำแนะนำการใช้ยา</label>
+            <select id="instruction">
+                <option>ก่อนอาหาร</option>
+                <option>หลังอาหาร</option>
+                <option>พร้อมอาหาร</option>
+                <option>ก่อนนอน</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>ขนาดยา</label>
+            <input id="dose" placeholder="เช่น 1 เม็ด">
+        </div>
+
+        <div class="form-group">
+            <label>หมายเหตุ</label>
+            <textarea id="note"></textarea>
+        </div>
+
+        <button class="btn-add" onclick="addMedicine()">
+            เพิ่มยา
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="list-header">
+            <h3>💊 รายการยา</h3>
+            <span class="clear-btn" onclick="clearMedicines()">
+                ลบทั้งหมด
+            </span>
+        </div>
+
+        <div id="medicineList"></div>
+
+    </div>
+
+</div>
+
+<div class="bottom-nav">
+
+    <a href="javascript:void(0)" onclick="goHome()" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>หน้าหลัก</span>
+    </a>
+
+    <a href="javascript:void(0)" onclick="goFood()" class="nav-item">
+        <i class="fas fa-utensils"></i>
+        <span>อาหาร</span>
+    </a>
+
+    <a href="javascript:void(0)" class="nav-item active">
+        <i class="fas fa-pills"></i>
+        <span>ยา</span>
+    </a>
+
+    <a href="javascript:void(0)" onclick="goActivity()" class="nav-item">
+        <i class="fas fa-running"></i>
+        <span>กิจกรรม</span>
+    </a>
+
+    <a href="javascript:void(0)" onclick="goHistory()" class="nav-item">
+        <i class="fas fa-history"></i>
+        <span>ประวัติ</span>
+    </a>
+
+    <a href="javascript:void(0)" onclick="goAnalyze()" class="nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>วิเคราะห์</span>
+    </a>
+
+    <a href="javascript:void(0)" onclick="goProfile()" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>โปรไฟล์</span>
+    </a>
+
+</div>
+
+<script>
+
+let medicines =
+JSON.parse(localStorage.getItem("medicines")) || [];
+
+function saveData(){
+    localStorage.setItem(
+        "medicines",
+        JSON.stringify(medicines)
+    );
+}
+
+function renderMedicines(){
+
+    const list =
+    document.getElementById("medicineList");
+
+    list.innerHTML = "";
+
+    medicines.forEach((med,index)=>{
+
+        list.innerHTML += `
+        <div class="medicine-item">
+
+            <i class="fas fa-trash delete-btn"
+               onclick="deleteMedicine(${index})">
+            </i>
+
+            <div class="medicine-name">
+                ${med.name}
+            </div>
+
+            <div class="medicine-time">
+                ⏰ ${med.time} • ${med.frequency}
+            </div>
+
+            <div class="medicine-detail">
+                ขนาดยา : ${med.dose}<br>
+                คำแนะนำ : ${med.instruction}<br>
+                หมายเหตุ : ${med.note || "-"}
+            </div>
+
+        </div>
+        `;
+    });
+}
+
+function addMedicine(){
+
+    const med = {
+
+        name:name.value,
+        time:time.value,
+        frequency:frequency.value,
+        instruction:instruction.value,
+        dose:dose.value,
+        note:note.value
+
+    };
+
+    if(!med.name || !med.time){
+        alert("กรอกข้อมูลให้ครบ");
+        return;
+    }
+
+    medicines.push(med);
+
+    saveData();
+    renderMedicines();
+
+    name.value="";
+    time.value="";
+    dose.value="";
+    note.value="";
+}
+
+function deleteMedicine(index){
+
+    medicines.splice(index,1);
+
+    saveData();
+    renderMedicines();
+}
+
+function clearMedicines(){
+
+    if(confirm("ลบทั้งหมด ?")){
+
+        medicines=[];
+
+        saveData();
+        renderMedicines();
+    }
+}
+
+renderMedicines();
+
+function goHome(){
+    window.location.href="./index.html";
+}
+
+function goFood(){
+    window.location.href="./food.html";
+}
+
+function goActivity(){
+    alert("หน้ากิจกรรม กำลังพัฒนา");
+}
+
+function goHistory(){
+    alert("หน้าประวัติ กำลังพัฒนา");
+}
+
+function goAnalyze(){
+    alert("หน้าวิเคราะห์ กำลังพัฒนา");
+}
+
+function goProfile(){
+    window.location.href="./profile.html";
+}
+
+</script>
+
+</body>
+</html>
