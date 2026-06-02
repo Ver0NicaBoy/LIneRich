@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>กิจกรรม</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    font-family:sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f4f6f8;
+    padding-bottom:90px;
+}
+
+.header{
+    background:#06C755;
+    color:white;
+    padding:25px;
+    border-bottom-left-radius:25px;
+    border-bottom-right-radius:25px;
+}
+
+.header h2{
+    margin:0;
+}
+
+.container{
+    max-width:420px;
+    margin:auto;
+    padding:15px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    color:#333;
+    margin-bottom:15px;
+}
+
+.tip-item{
+    display:flex;
+    gap:15px;
+    align-items:flex-start;
+    padding:14px 0;
+}
+
+.tip-icon{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    flex-shrink:0;
+}
+
+.green{
+    background:linear-gradient(#8cf0a7,#3bc86a);
+}
+
+.yellow{
+    background:linear-gradient(#ffd86f,#dba520);
+}
+
+.red{
+    background:linear-gradient(#ff8ca0,#d82c4c);
+}
+
+.tip-title{
+    font-weight:bold;
+    margin-bottom:4px;
+    color:#333;
+}
+
+.tip-desc{
+    font-size:13px;
+    color:#666;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:6px;
+    font-size:14px;
+    color:#555;
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:14px;
+    background:white;
+}
+
+textarea{
+    height:90px;
+    resize:none;
+}
+
+.row{
+    display:flex;
+    gap:10px;
+}
+
+.row .form-group{
+    flex:1;
+}
+
+.btn-save{
+    width:100%;
+    border:none;
+    padding:14px;
+    border-radius:12px;
+    background:#06C755;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-save:hover{
+    opacity:.9;
+}
+/* ===== กิจกรรมแนะนำ ===== */
+
+.recommend-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.recommend-card{
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+
+.recommend-icon{
+    font-size:24px;
+    margin-bottom:10px;
+}
+
+.recommend-title{
+    font-weight:bold;
+    color:#333;
+    margin-bottom:4px;
+}
+
+.recommend-cal{
+    color:#666;
+    font-size:13px;
+}
+
+/* ===== รายการกิจกรรม ===== */
+
+.activity-item{
+    position:relative;
+    border:1px solid #eee;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.activity-name{
+    font-size:18px;
+    font-weight:bold;
+    color:#333;
+}
+
+.activity-info{
+    margin-top:8px;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.delete-btn{
+    position:absolute;
+    top:15px;
+    right:15px;
+    color:#ff5252;
+    cursor:pointer;
+}
+
+.list-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.clear-btn{
+    color:#ff5252;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* ===== NAVBAR ===== */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:10px 0;
+    box-shadow:0 -2px 10px rgba(0,0,0,.08);
+    z-index:1000;
+}
+
+.nav-item{
+    flex:1;
+    text-align:center;
+    text-decoration:none;
+    color:#999;
+}
+
+.nav-item i{
+    display:block;
+    font-size:18px;
+    margin-bottom:4px;
+}
+
+.nav-item span{
+    font-size:10px;
+}
+
+.nav-item.active{
+    color:#06C755;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>🏃 บันทึกกิจกรรม</h2>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+    <div class="section-title">
+        💡 เคล็ดลับการออกกำลังกาย
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon green"></div>
+        <div>
+            <div class="tip-title">ระดับเบา</div>
+            <div class="tip-desc">
+                เดิน ยืดเส้น โยคะ เหมาะสำหรับผู้เริ่มต้น
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon yellow"></div>
+        <div>
+            <div class="tip-title">ระดับปานกลาง</div>
+            <div class="tip-desc">
+                วิ่งเหยาะ ปั่นจักรยาน ว่ายน้ำ
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon red"></div>
+        <div>
+            <div class="tip-title">ระดับหนัก</div>
+            <div class="tip-desc">
+                วิ่ง ยกน้ำหนัก HIIT
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="section-title">
+        ➕ บันทึกการออกกำลังกาย
+    </div>
+
+    <div class="form-group">
+        <label>ประเภทการออกกำลังกาย</label>
+        <select id="activityType">
+            <option>เดิน</option>
+            <option>วิ่ง</option>
+            <option>ปั่นจักรยาน</option>
+            <option>ว่ายน้ำ</option>
+            <option>โยคะ</option>
+            <option>ยกน้ำหนัก</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>ระดับความหนัก</label>
+        <select id="activityLevel">
+            <option>เบา</option>
+            <option>ปานกลาง</option>
+            <option>หนัก</option>
+        </select>
+    </div>
+
+    <div class="row">
+
+        <div class="form-group">
+            <label>ระยะเวลา (นาที)</label>
+            <input type="number" id="duration" placeholder="30">
+        </div>
+
+        <div class="form-group">
+            <label>แคลอรี่ที่เผาผลาญ</label>
+            <input type="number" id="calories" placeholder="200">
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label>หมายเหตุ</label>
+        <textarea id="note"
+        placeholder="เช่น รู้สึกดี เหนื่อยมาก ปวดเข่า"></textarea>
+    </div>
+
+    <button class="btn-save"
+    onclick="addActivity()">
+        บันทึกการออกกำลังกาย
+    </button>
+
+</div>
+<div class="card">
+
+    <div class="section-title">
+        🚀 กิจกรรมแนะนำ
+    </div>
+
+    <div class="recommend-grid">
+
+        <div class="recommend-card">
+            <div class="recommend-icon">🚶</div>
+            <div class="recommend-title">เดิน 30 นาที</div>
+            <div class="recommend-cal">120 แคลอรี่</div>
+        </div>
+
+        <div class="recommend-card">
+            <div class="recommend-icon">🏃</div>
+            <div class="recommend-title">วิ่งเหยาะ 20 นาที</div>
+            <div class="recommend-cal">200 แคลอรี่</div>
+        </div>
+
+        <div class="recommend-card">
+            <div class="recommend-icon">🚴</div>
+            <div class="recommend-title">ปั่นจักรยาน 45 นาที</div>
+            <div class="recommend-cal">300 แคลอรี่</div>
+        </div>
+
+        <div class="recommend-card">
+            <div class="recommend-icon">🏋️</div>
+            <div class="recommend-title">ยกน้ำหนัก 60 นาที</div>
+            <div class="recommend-cal">400 แคลอรี่</div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="list-header">
+        <div class="section-title" style="margin:0;">
+            🏃 รายการกิจกรรม
+        </div>
+
+        <span class="clear-btn"
+        onclick="clearActivities()">
+            ลบทั้งหมด
+        </span>
+    </div>
+
+    <div id="activityList"></div>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+    <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>หน้าหลัก</span>
+    </a>
+
+    <a href="food.html" class="nav-item">
+        <i class="fas fa-utensils"></i>
+        <span>อาหาร</span>
+    </a>
+
+    <a href="med.html" class="nav-item">
+        <i class="fas fa-pills"></i>
+        <span>ยา</span>
+    </a>
+
+    <a href="active.html" class="nav-item active">
+        <i class="fas fa-running"></i>
+        <span>กิจกรรม</span>
+    </a>
+
+    <a href="history.html" class="nav-item">
+        <i class="fas fa-history"></i>
+        <span>ประวัติ</span>
+    </a>
+
+    <a href="analyze.html" class="nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>วิเคราะห์</span>
+    </a>
+
+    <a href="profile.html" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>โปรไฟล์</span>
+    </a>
+
+</div>
+
+<script>
+
+let activities =
+JSON.parse(localStorage.getItem("activities")) || [];
+
+function saveActivities(){
+    localStorage.setItem(
+        "activities",
+        JSON.stringify(activities)
+    );
+}
+
+function renderActivities(){
+
+    const list =
+    document.getElementById("activityList");
+
+    list.innerHTML="";
+
+    activities.forEach((a,index)=>{
+
+        list.innerHTML += `
+        <div class="activity-item">
+
+            <i class="fas fa-trash delete-btn"
+            onclick="deleteActivity(${index})"></i>
+
+            <div class="activity-name">
+                ${a.type}
+            </div>
+
+            <div class="activity-info">
+                ระดับ : ${a.level}<br>
+                เวลา : ${a.duration} นาที<br>
+                เผาผลาญ : ${a.calories} kcal<br>
+                หมายเหตุ : ${a.note || "-"}
+            </div>
+
+        </div>
+        `;
+    });
+}
+
+function addActivity(){
+
+    const activity = {
+
+        type:activityType.value,
+        level:activityLevel.value,
+        duration:duration.value,
+        calories:calories.value,
+        note:note.value
+
+    };
+
+    if(!activity.duration ||
+       !activity.calories){
+        alert("กรอกข้อมูลให้ครบ");
+        return;
+    }
+
+    activities.push(activity);
+
+    saveActivities();
+    renderActivities();
+
+    duration.value="";
+    calories.value="";
+    note.value="";
+}
+
+function deleteActivity(index){
+
+    activities.splice(index,1);
+
+    saveActivities();
+    renderActivities();
+}
+
+function clearActivities(){
+
+    if(confirm("ลบทั้งหมด ?")){
+
+        activities=[];
+
+        saveActivities();
+        renderActivities();
+    }
+}
+
+renderActivities();
+
+</script>
+
+</body>
+</html>
