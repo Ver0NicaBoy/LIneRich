@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Health Tracker - History</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f9fa;
+            padding-bottom: 80px; /* เว้นที่ให้ bottom nav ตามโค้ดเดิม */
+        }
+
+        /* 🔴 ส่วน Header สีแดง (ตามรูป) */
+        .header-red {
+            background: #ff5c5c;
+            color: white;
+            padding: 35px 20px 65px 20px;
+        }
+
+        .header-red h1 {
+            margin: 0;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-red p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: auto;
+        }
+
+        /* 📋 การ์ดแคลอรี่ (ตามรูป) */
+        .calorie-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: -40px 20px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .cal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .cal-value {
+            color: #e53935;
+            font-size: 18px;
+        }
+
+        .progress-bg {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 12px;
+            margin: 15px 0 10px;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: #ff5c5c;
+            height: 100%;
+            border-radius: 10px;
+            width: 4%;
+        }
+
+        .cal-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* 📝 ส่วนหัวของประวัติ (ตามรูป) */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2b3a4a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .clear-btn {
+            color: #ff5c5c;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 🍽️ การ์ดรายการอาหาร (ตามรูป) */
+        .history-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 0 20px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+
+        .hist-card-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .hist-date {
+            color: #333;
+        }
+
+        .hist-cal {
+            color: #ff5c5c;
+        }
+
+        .food-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .food-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .meal-tag {
+            background: #f1f3f5;
+            color: #555;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .food-details {
+            line-height: 1.5;
+        }
+
+        .food-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .food-sub {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .delete-btn {
+            color: #cbd5e1;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* 🧭 Navbar (โค้ดดั้งเดิมของคุณทั้งหมด) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-align: center;
+            text-decoration: none;
+            color: #999;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+        }
+
+        .nav-item.active {
+            color: #06C755;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header-red">
+    <h1>Personalised Health Tracker (CVDs) <span>💖</span></h1>
+    <p>สวัสดี <span id="name">คุณผู้ใช้</span></p>
+</div>
+
+<div class="container">
+    <div class="calorie-card">
+        <div class="cal-header">
+            <span>แคลอรี่วันนี้</span>
+            <span class="cal-value">80</span>
+        </div>
+        <div class="progress-bg">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="cal-footer">
+            <span>เป้าหมาย: 1800 แคลอรี่</span>
+            <span>4%</span>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <div class="section-title">
+            <i class="fas fa-book" style="color:#7fb3d5;"></i> ประวัติการทานอาหาร
+        </div>
+        <a class="clear-btn">ล้างประวัติ</a>
+    </div>
+
+    <div class="history-card">
+        <div class="hist-card-header">
+            <span class="hist-date">16 ตุลาคม 2568</span>
+            <span class="hist-cal">80 แคลอรี่</span>
+        </div>
+        
+        <div class="food-item">
+            <div class="food-info">
+                <span class="meal-tag">เช้า</span>
+                <div class="food-details">
+                    <div class="food-name">สลัดผัก</div>
+                    <div class="food-sub">1 หน่วย • 80 แคลอรี่</div>
+                </div>
+            </div>
+            <i class="fas fa-trash-alt delete-btn"></i>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <a href="javascript:void(0)" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>หน้าหลัก</span>
+    </a>
+    <a href="javascript:void(0)" onclick="goFood()" class="nav-item">
+        <i class="fas fa-utensils"></i>
+        <span>เพิ่มอาหาร</span>
+    </a>
+    <a href="javascript:void(0)" onclick="goMedicine()" class="nav-item">
+        <i class="fas fa-pills"></i>
+        <span>ยา</span>
+    </a>
+    <a href="javascript:void(0)" onclick="goActivity()" class="nav-item">
+        <i class="fas fa-running"></i>
+        <span>กิจกรรม</span>
+    </a>
+    <a href="javascript:void(0)" onclick="goHistory()" class="nav-item active">
+        <i class="fas fa-history"></i>
+        <span>ประวัติ</span>
+    </a>
+    <a href="javascript:void(0)" onclick="goAnalyze()" class="nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>วิเคราะห์</span>
+    </a>
+    <a href="javascript:void(0)" onclick="goProfile()" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>โปรไฟล์</span>
+    </a>
+</div>
+
+<script>
+    const liffId = "2009309078-VfLCE4sr";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbx4w0db-eykxa-GZv5PfWtLPNlRdb4KMXUMP5gQ9xr4cFVQTlMAAdyBOd9QFhjKzLaI/exec";
+
+    async function main() {
+        await liff.init({ liffId });
+        if (!liff.isLoggedIn()) {
+            liff.login();
+        } else {
+            const profile = await liff.getProfile();
+            document.getElementById("name").innerText = profile.displayName; 
+
+            const formData = new URLSearchParams();
+            formData.append("action", "checkUser");
+            formData.append("lineId", profile.userId);
+
+            try {
+                const res = await fetch(scriptURL, { method: "POST", body: formData });
+                const data = await res.json();
+
+                if (data.status === "found") {
+                    console.log("Found User Data: ", data);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+    }
+
+    main();
+
+    // ✅ เมนูเปลี่ยนสี
+    const navItems = document.querySelectorAll(".nav-item");
+    navItems.forEach(item => {
+        item.addEventListener("click", function () {
+            navItems.forEach(i => i.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // ฟังก์ชัน
+    function goProfile() { window.location.href = "./profile.html"; }
+    function goFood() { window.location.href = "./food.html"; }
+    function goMedicine() { window.location.href = "./med.html"; }
+    function goActivity() { window.location.href = "./active.html"; }
+    function goHistory() { alert("หน้าประวัติ"); }
+    function goAnalyze() { window.location.href = "./graph.html"; }
+</script>
+
+</body>
+</html>
