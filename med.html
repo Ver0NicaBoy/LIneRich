@@ -6,6 +6,7 @@
 <title>จัดการยา</title>
 
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -14,8 +15,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 <meta http-equiv="Expires" content="0">
 
 <style>
-
-*{
+    *{
     box-sizing:border-box;
     font-family:sans-serif;
 }
@@ -81,10 +81,6 @@ body{
     color:#666;
 }
 
-/* ====================
-   FORM
-==================== */
-
 .form-group{
     margin-bottom:15px;
 }
@@ -137,9 +133,6 @@ textarea{
 .btn-add:hover{
     opacity:.9;
 }
-/* ====================
-   MEDICINE LIST
-==================== */
 
 .list-header{
     display:flex;
@@ -195,10 +188,6 @@ textarea{
     cursor:pointer;
 }
 
-/* ====================
-   BOTTOM NAV
-==================== */
-
 .bottom-nav{
     position:fixed;
     bottom:0;
@@ -238,7 +227,7 @@ textarea{
 .nav-item.active i{
     color:#06C755;
 }
-</style>
+    </style>
 </head>
 
 <body>
@@ -248,292 +237,3 @@ textarea{
 </div>
 
 <div class="container">
-
-    <div class="card">
-
-        <div class="section-title">
-            💡 เคล็ดลับการทานยา 5 ข้อสำคัญ
-        </div>
-
-        <div class="tip-item">
-            <div class="tip-icon">⏰</div>
-            <div>
-                <div class="tip-title">ทานยาตรงเวลา</div>
-                <div class="tip-desc">
-                    ตั้งนาฬิกาเตือนไม่ให้ลืมทานยา
-                </div>
-            </div>
-        </div>
-
-        <div class="tip-item">
-            <div class="tip-icon">🍽️</div>
-            <div>
-                <div class="tip-title">ปฏิบัติตามคำแนะนำ</div>
-                <div class="tip-desc">
-                    ทานก่อนอาหาร หลังอาหาร หรือพร้อมอาหารตามแพทย์สั่ง
-                </div>
-            </div>
-        </div>
-
-        <div class="tip-item">
-            <div class="tip-icon">💧</div>
-            <div>
-                <div class="tip-title">ดื่มน้ำเปล่า</div>
-                <div class="tip-desc">
-                    ทานยาพร้อมน้ำเปล่า หลีกเลี่ยงเครื่องดื่มอื่น
-                </div>
-            </div>
-        </div>
-
-        <div class="tip-item">
-            <div class="tip-icon">🚫</div>
-            <div>
-                <div class="tip-title">ไม่หยุดยาเอง</div>
-                <div class="tip-desc">
-                    ทานยาครบตามที่แพทย์กำหนด
-                </div>
-            </div>
-        </div>
-
-        <div class="tip-item">
-            <div class="tip-icon">🌡️</div>
-            <div>
-                <div class="tip-title">เก็บยาให้ถูกต้อง</div>
-                <div class="tip-desc">
-                    เก็บในที่แห้ง เย็น และพ้นแสงแดด
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="card">
-
-        <div class="section-title">
-            ➕ เพิ่มยา
-        </div>
-
-        <div class="form-group">
-            <label>ชื่อยา</label>
-            <input id="name" placeholder="เช่น Amlodipine">
-        </div>
-
-        <div class="row">
-
-            <div class="form-group">
-                <label>เวลาทานยา</label>
-                <input type="time" id="time">
-            </div>
-
-            <div class="form-group">
-                <label>ความถี่</label>
-                <select id="frequency">
-                    <option>ทุกวัน</option>
-                    <option>วันเว้นวัน</option>
-                    <option>ทุกสัปดาห์</option>
-                    <option>ตามอาการ</option>
-                </select>
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            <label>คำแนะนำการใช้ยา</label>
-            <select id="instruction">
-                <option>ก่อนอาหาร</option>
-                <option>หลังอาหาร</option>
-                <option>พร้อมอาหาร</option>
-                <option>ก่อนนอน</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>ขนาดยา</label>
-            <input id="dose" placeholder="เช่น 1 เม็ด">
-        </div>
-
-        <div class="form-group">
-            <label>หมายเหตุ</label>
-            <textarea id="note"></textarea>
-        </div>
-
-        <button class="btn-add" onclick="addMedicine()">
-            เพิ่มยา
-        </button>
-
-    </div>
-
-    <div class="card">
-
-        <div class="list-header">
-            <h3>💊 รายการยา</h3>
-            <span class="clear-btn" onclick="clearMedicines()">
-                ลบทั้งหมด
-            </span>
-        </div>
-
-        <div id="medicineList"></div>
-
-    </div>
-
-</div>
-
-<div class="bottom-nav">
-
-    <a href="dashboard.html" class="nav-item">
-        <i class="fas fa-home"></i>
-        <span>หน้าหลัก</span>
-    </a>
-
-    <a href="food.html" class="nav-item">
-        <i class="fas fa-utensils"></i>
-        <span>อาหาร</span>
-    </a>
-
-    <a href="med.html" class="nav-item active">
-        <i class="fas fa-pills"></i>
-        <span>ยา</span>
-    </a>
-
-    <a href="active.html" class="nav-item">
-        <i class="fas fa-running"></i>
-        <span>กิจกรรม</span>
-    </a>
-
-    <a href="history.html" class="nav-item">
-        <i class="fas fa-history"></i>
-        <span>ประวัติ</span>
-    </a>
-
-    <a href="graph.html" class="nav-item ">
-        <i class="fas fa-chart-line"></i>
-        <span>วิเคราะห์</span>
-    </a>
-
-    <a href="profile.html" class="nav-item">
-        <i class="fas fa-user"></i>
-        <span>โปรไฟล์</span>
-    </a>
-
-</div>
-let medicines =
-JSON.parse(localStorage.getItem("medicines")) || [];
-
-function saveData(){
-    localStorage.setItem(
-        "medicines",
-        JSON.stringify(medicines)
-    );
-}
-
-function renderMedicines(){
-
-    const list =
-    document.getElementById("medicineList");
-
-    list.innerHTML = "";
-
-    medicines.forEach((med,index)=>{
-
-        list.innerHTML += `
-        <div class="medicine-item">
-
-            <i class="fas fa-trash delete-btn"
-               onclick="deleteMedicine(${index})">
-            </i>
-
-            <div class="medicine-name">
-                ${med.name}
-            </div>
-
-            <div class="medicine-time">
-                ⏰ ${med.time} • ${med.frequency}
-            </div>
-
-            <div class="medicine-detail">
-                ขนาดยา : ${med.dose}<br>
-                คำแนะนำ : ${med.instruction}<br>
-                หมายเหตุ : ${med.note || "-"}
-            </div>
-
-        </div>
-        `;
-    });
-}
-
-function addMedicine(){
-
-    const med = {
-
-        name:name.value,
-        time:time.value,
-        frequency:frequency.value,
-        instruction:instruction.value,
-        dose:dose.value,
-        note:note.value
-
-    };
-
-    if(!med.name || !med.time){
-        alert("กรอกข้อมูลให้ครบ");
-        return;
-    }
-
-    medicines.push(med);
-
-    saveData();
-    renderMedicines();
-
-    name.value="";
-    time.value="";
-    dose.value="";
-    note.value="";
-}
-
-function deleteMedicine(index){
-
-    medicines.splice(index,1);
-
-    saveData();
-    renderMedicines();
-}
-
-function clearMedicines(){
-
-    if(confirm("ลบทั้งหมด ?")){
-
-        medicines=[];
-
-        saveData();
-        renderMedicines();
-    }
-}
-
-renderMedicines();
-
-function goHome(){
-    window.location.href="./dashboard.html";
-}
-
-function goFood(){
-    window.location.href="./food.html";
-}
-
-function goActivity(){
-    window.location.href="./active.html";
-}
-
-function goHistory(){
-   { window.location.href = "./history.html"; }
-
-function goAnalyze(){
-     window.location.href="./graph.html";
-}
-
-function goProfile(){
-    window.location.href="./profile.html";
-}
-
-</script>
-
-</body>
-</html>
