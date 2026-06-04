@@ -89,8 +89,71 @@
             border-right: 1px solid #eee;
         }
 
+        /* 🏆 CSS สำหรับลีดเดอร์บอร์ด (Leaderboard) */
+        .score-display {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .score-display .points {
+            font-size: 32px;
+            font-weight: bold;
+            color: #06C755;
+        }
+
+        .score-display .points span {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .lb-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f4f6f8;
+        }
+
+        .lb-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .lb-rank {
+            width: 28px;
+            height: 28px;
+            background: #f4f6f8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+            margin-right: 12px;
+        }
+
+        /* สีสำหรับ Top 3 */
+        .lb-item:nth-child(1) .lb-rank { background: #FFD700; color: #fff; box-shadow: 0 2px 5px rgba(255, 215, 0, 0.4); } /* ทอง */
+        .lb-item:nth-child(2) .lb-rank { background: #C0C0C0; color: #fff; box-shadow: 0 2px 5px rgba(192, 192, 192, 0.4); } /* เงิน */
+        .lb-item:nth-child(3) .lb-rank { background: #CD7F32; color: #fff; box-shadow: 0 2px 5px rgba(205, 127, 50, 0.4); } /* ทองแดง */
+
+        .lb-name {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .lb-score {
+            font-size: 14px;
+            font-weight: bold;
+            color: #06C755;
+        }
+
         /* 🌟 CSS เพิ่มเติมสำหรับส่วนคำแนะนำโภชนาการ */
-        .advice-header {
+        .section-header {
             font-size: 16px;
             font-weight: bold;
             color: #333;
@@ -185,17 +248,16 @@
 </div>
 
 <div class="container">
+    
     <div class="card row">
         <div class="item">
             <div class="card-title">น้ำหนักตัว</div>
             <div class="card-value" id="weight">-- kg</div>
         </div>
-
         <div class="item">
             <div class="card-title">ส่วนสูง</div>
             <div class="card-value" id="height">-- cm</div>
         </div>
-
         <div class="item">
             <div class="card-title">BMI</div>
             <div class="card-value" id="bmi">--</div>
@@ -203,7 +265,41 @@
     </div>
 
     <div class="card">
-        <div class="advice-header">
+        <div class="section-header">
+            🏆 กระดานคะแนน (Leaderboard)
+        </div>
+        
+        <div class="score-display">
+            <div class="card-title">คะแนนปัจจุบันของคุณ</div>
+            <div class="points" id="userScore">1,250 <span>pt</span></div>
+        </div>
+
+        <div>
+            <div class="lb-item">
+                <div class="lb-rank">1</div>
+                <div class="lb-name">สมชาย รักสุขภาพ</div>
+                <div class="lb-score">2,500 pt</div>
+            </div>
+            <div class="lb-item">
+                <div class="lb-rank">2</div>
+                <div class="lb-name">มารตี มีวินัย</div>
+                <div class="lb-score">2,150 pt</div>
+            </div>
+            <div class="lb-item">
+                <div class="lb-rank">3</div>
+                <div class="lb-name">คุณ (You)</div>
+                <div class="lb-score" id="userListScore">1,250 pt</div>
+            </div>
+            <div class="lb-item">
+                <div class="lb-rank">4</div>
+                <div class="lb-name">เอกพงษ์ วิ่งเก่ง</div>
+                <div class="lb-score">980 pt</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="section-header">
             💡 คำแนะนำโภชนาการ
         </div>
         
@@ -234,42 +330,34 @@
 </div>
 
 <div class="bottom-nav">
-
     <a href="dashboard.html" class="nav-item active">
         <i class="fas fa-home"></i>
         <span>หน้าหลัก</span>
     </a>
-
     <a href="food.html" class="nav-item">
         <i class="fas fa-utensils"></i>
         <span>อาหาร</span>
     </a>
-
     <a href="med.html" class="nav-item">
         <i class="fas fa-pills"></i>
         <span>ยา</span>
     </a>
-
     <a href="active.html" class="nav-item">
         <i class="fas fa-running"></i>
         <span>กิจกรรม</span>
     </a>
-
     <a href="history.html" class="nav-item">
         <i class="fas fa-history"></i>
         <span>ประวัติ</span>
     </a>
-
     <a href="graph.html" class="nav-item ">
         <i class="fas fa-chart-line"></i>
         <span>วิเคราะห์</span>
     </a>
-
     <a href="profile.html" class="nav-item">
         <i class="fas fa-user"></i>
         <span>โปรไฟล์</span>
     </a>
-
 </div>
 
 <script>
@@ -309,6 +397,11 @@
                     else status = "อ้วน";
 
                     document.getElementById("bmiStatus").innerText = "สถานะสุขภาพ : " + status;
+                    
+                    // หากในฐานข้อมูล Google Sheets มีการเก็บ "คะแนน" ส่งมาด้วย (เช่น data.score)
+                    // สามารถเอามาอัปเดตหน้าจอตรงนี้ได้เลยครับ เช่น:
+                    // document.getElementById("userScore").innerHTML = data.score + " <span>pt</span>";
+                    // document.getElementById("userListScore").innerText = data.score + " pt";
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
