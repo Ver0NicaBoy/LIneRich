@@ -1,352 +1,343 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>จัดการยา</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>จัดการยา</title>
 
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
-<style>
-   *{
-    box-sizing:border-box;
-    font-family:sans-serif;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: sans-serif;
+    }
 
-body{
-    margin:0;
-    background:#f4f6f8;
-    padding-bottom:90px;
-}
+    body {
+      margin: 0;
+      background: #f4f6f8;
+      padding-bottom: 90px;
+    }
 
-.header{
-    background:#06C755;
-    color:white;
-    padding:25px;
-    border-bottom-left-radius:25px;
-    border-bottom-right-radius:25px;
-}
+    .header {
+      background: #06C755;
+      color: white;
+      padding: 25px;
+      border-bottom-left-radius: 25px;
+      border-bottom-right-radius: 25px;
+    }
 
-.header h2{
-    margin:0;
-}
+    .header h2 {
+      margin: 0;
+    }
 
-.container{
-    max-width:420px;
-    margin:auto;
-    padding:15px;
-}
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 15px;
+    }
 
-.card{
-    background:#fff;
-    border-radius:16px;
-    padding:18px;
-    margin-bottom:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,.05);
-}
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
 
-.section-title{
-    font-size:22px;
-    font-weight:bold;
-    color:#333;
-    margin-bottom:15px;
-}
+    .section-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 15px;
+    }
 
-.tip-item{
-    display:flex;
-    gap:15px;
-    align-items:flex-start;
-    padding:12px 0;
-}
+    .tip-item {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+      padding: 12px 0;
+    }
 
-.tip-icon{
-    font-size:24px;
-}
+    .tip-icon {
+      font-size: 24px;
+    }
 
-.tip-title{
-    font-weight:bold;
-    color:#333;
-    margin-bottom:3px;
-}
+    .tip-title {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 3px;
+    }
 
-.tip-desc{
-    font-size:13px;
-    color:#666;
-}
+    .tip-desc {
+      font-size: 13px;
+      color: #666;
+    }
 
-.form-group{
-    margin-bottom:15px;
-}
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-.form-group label{
-    display:block;
-    margin-bottom:6px;
-    font-size:14px;
-    color:#555;
-    font-weight:600;
-}
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #555;
+      font-weight: 600;
+    }
 
-input,
-select,
-textarea{
-    width:100%;
-    padding:12px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    font-size:14px;
-    background:#fff;
-}
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 14px;
+      background: #fff;
+    }
 
-textarea{
-    resize:none;
-    height:90px;
-}
+    textarea {
+      resize: none;
+      height: 90px;
+    }
 
-.row{
-    display:flex;
-    gap:10px;
-}
+    .row {
+      display: flex;
+      gap: 10px;
+    }
 
-.row .form-group{
-    flex:1;
-}
+    .row .form-group {
+      flex: 1;
+    }
 
-.btn-add{
-    width:100%;
-    border:none;
-    background:#06C755;
-    color:white;
-    padding:14px;
-    border-radius:12px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
+    .btn-add {
+      width: 100%;
+      border: none;
+      background: #06C755;
+      color: white;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.btn-add:hover{
-    opacity:.9;
-}
+    .btn-add:hover {
+      opacity: .9;
+    }
 
-.list-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
 
-.list-header h3{
-    margin:0;
-    color:#333;
-}
+    .list-header h3 {
+      margin: 0;
+      color: #333;
+    }
 
-.clear-btn{
-    color:#ff5252;
-    font-size:13px;
-    cursor:pointer;
-    font-weight:bold;
-}
+    .clear-btn {
+      color: #ff5252;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.medicine-item{
-    border:1px solid #eee;
-    border-radius:12px;
-    padding:12px;
-    margin-bottom:10px;
-    position:relative;
-}
+    .medicine-item {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+      position: relative;
+    }
 
-.medicine-name{
-    font-size:18px;
-    font-weight:bold;
-    color:#333;
-}
+    .medicine-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
 
-.medicine-time{
-    color:#06C755;
-    font-size:13px;
-    margin-top:5px;
-}
+    .medicine-time {
+      color: #06C755;
+      font-size: 13px;
+      margin-top: 5px;
+    }
 
-.medicine-detail{
-    margin-top:8px;
-    font-size:13px;
-    color:#666;
-    line-height:1.8;
-}
+    .medicine-detail {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.8;
+    }
 
-.delete-btn{
-    position:absolute;
-    right:12px;
-    top:12px;
-    color:#ff5252;
-    cursor:pointer;
-}
+    .delete-btn {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      color: #ff5252;
+      cursor: pointer;
+    }
 
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:#fff;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    padding:8px 0;
-    box-shadow:0 -2px 10px rgba(0,0,0,.08);
-    z-index:1000;
-}
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,.08);
+      z-index: 1000;
+    }
 
-.nav-item{
-    flex:1;
-    text-align:center;
-    text-decoration:none;
-    color:#999;
-    padding:8px 0;
-}
+    .nav-item {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      color: #999;
+      padding: 8px 0;
+    }
 
-.nav-item i{
-    display:block;
-    font-size:18px;
-    margin-bottom:4px;
-}
+    .nav-item i {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
 
-.nav-item span{
-    font-size:10px;
-}
+    .nav-item span {
+      font-size: 10px;
+    }
 
-.nav-item.active{
-    color:#06C755;
-}
+    .nav-item.active {
+      color: #06C755;
+    }
 
-.nav-item.active i{
-    color:#06C755;
-}
-   </style>
+    .nav-item.active i {
+      color: #06C755;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="header">
+  <div class="header">
     <h2>💊 จัดการยา</h2>
-</div>
+  </div>
 
-<div class="container">
-   <div class="card">
-
-    <div class="section-title">
+  <div class="container">
+    
+    <div class="card">
+      <div class="section-title">
         💡 เคล็ดลับการทานยา 5 ข้อสำคัญ
-    </div>
+      </div>
 
-    <div class="tip-item">
+      <div class="tip-item">
         <div class="tip-icon">⏰</div>
         <div>
-            <div class="tip-title">ทานยาตรงเวลา</div>
-            <div class="tip-desc">
-                ตั้งนาฬิกาเตือนไม่ให้ลืมทานยา
-            </div>
+          <div class="tip-title">ทานยาตรงเวลา</div>
+          <div class="tip-desc">ตั้งนาฬิกาเตือนไม่ให้ลืมทานยา</div>
         </div>
-    </div>
+      </div>
 
-    <div class="tip-item">
+      <div class="tip-item">
         <div class="tip-icon">🍽️</div>
         <div>
-            <div class="tip-title">ปฏิบัติตามคำแนะนำ</div>
-            <div class="tip-desc">
-                ทานก่อนอาหาร หลังอาหาร หรือพร้อมอาหารตามแพทย์สั่ง
-            </div>
+          <div class="tip-title">ปฏิบัติตามคำแนะนำ</div>
+          <div class="tip-desc">ทานก่อนอาหาร หลังอาหาร หรือพร้อมอาหารตามแพทย์สั่ง</div>
         </div>
-    </div>
+      </div>
 
-    <div class="tip-item">
+      <div class="tip-item">
         <div class="tip-icon">💧</div>
         <div>
-            <div class="tip-title">ดื่มน้ำเปล่า</div>
-            <div class="tip-desc">
-                ทานยาพร้อมน้ำเปล่า หลีกเลี่ยงเครื่องดื่มอื่น
-            </div>
+          <div class="tip-title">ดื่มน้ำเปล่า</div>
+          <div class="tip-desc">ทานยาพร้อมน้ำเปล่า หลีกเลี่ยงเครื่องดื่มอื่น</div>
         </div>
-    </div>
+      </div>
 
-    <div class="tip-item">
+      <div class="tip-item">
         <div class="tip-icon">🚫</div>
         <div>
-            <div class="tip-title">ไม่หยุดยาเอง</div>
-            <div class="tip-desc">
-                ทานยาครบตามที่แพทย์กำหนด
-            </div>
+          <div class="tip-title">ไม่หยุดยาเอง</div>
+          <div class="tip-desc">ทานยาครบตามที่แพทย์กำหนด</div>
         </div>
-    </div>
+      </div>
 
-    <div class="tip-item">
+      <div class="tip-item">
         <div class="tip-icon">🌡️</div>
         <div>
-            <div class="tip-title">เก็บยาให้ถูกต้อง</div>
-            <div class="tip-desc">
-                เก็บในที่แห้ง เย็น และพ้นแสงแดด
-            </div>
+          <div class="tip-title">เก็บยาให้ถูกต้อง</div>
+          <div class="tip-desc">เก็บในที่แห้ง เย็น และพ้นแสงแดด</div>
         </div>
+      </div>
     </div>
 
-</div>
-
-<div class="card">
-
-    <div class="section-title">
+    <div class="card">
+      <div class="section-title">
         ➕ เพิ่มยา
-    </div>
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>ชื่อยา</label>
         <input id="name" placeholder="เช่น Amlodipine">
-    </div>
+      </div>
 
-    <div class="row">
-
+      <div class="row">
         <div class="form-group">
-            <label>เวลาทานยา</label>
-            <input type="time" id="time">
+          <label>เวลาทานยา</label>
+          <input type="time" id="time">
         </div>
-
         <div class="form-group">
-            <label>ความถี่</label>
-            <select id="frequency">
-                <option>ทุกวัน</option>
-                <option>วันเว้นวัน</option>
-                <option>ทุกสัปดาห์</option>
-                <option>ตามอาการ</option>
-            </select>
+          <label>ความถี่</label>
+          <select id="frequency">
+            <option>ทุกวัน</option>
+            <option>วันเว้นวัน</option>
+            <option>ทุกสัปดาห์</option>
+            <option>ตามอาการ</option>
+          </select>
         </div>
+      </div>
 
-    </div>
-
-    <div class="form-group">
+      <div class="form-group">
         <label>คำแนะนำการใช้ยา</label>
         <select id="instruction">
-            <option>ก่อนอาหาร</option>
-            <option>หลังอาหาร</option>
-            <option>พร้อมอาหาร</option>
-            <option>ก่อนนอน</option>
+          <option>ก่อนอาหาร</option>
+          <option>หลังอาหาร</option>
+          <option>พร้อมอาหาร</option>
+          <option>ก่อนนอน</option>
         </select>
-    </div>
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>ขนาดยา</label>
         <input id="dose" placeholder="เช่น 1 เม็ด">
-    </div>
+      </div>
 
-    <div class="form-group">
+      <div class="form-group">
         <label>หมายเหตุ</label>
         <textarea id="note"></textarea>
+      </div>
+
+      <button class="btn-add" onclick="addMedicine()">
+        เพิ่มยา
+      </button>
     </div>
 
-    <button class="btn-add" onclick="addMedicine()">
-        เพิ่มยา
-    </button>
+  </div> <script>
+    function addMedicine() {
+      // เขียนโค้ดการทำงานเมื่อกดปุ่มเพิ่มยา
+      console.log("ปุ่มเพิ่มยาถูกกดแล้ว!");
+    }
+  </script>
 
-</div>
+</body>
+</html>
