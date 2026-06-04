@@ -15,7 +15,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 <meta http-equiv="Expires" content="0">
 
 <style>
-    *{
+   *{
     box-sizing:border-box;
     font-family:sans-serif;
 }
@@ -227,7 +227,7 @@ textarea{
 .nav-item.active i{
     color:#06C755;
 }
-    </style>
+   </style>
 </head>
 
 <body>
@@ -237,3 +237,116 @@ textarea{
 </div>
 
 <div class="container">
+   <div class="card">
+
+    <div class="section-title">
+        💡 เคล็ดลับการทานยา 5 ข้อสำคัญ
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon">⏰</div>
+        <div>
+            <div class="tip-title">ทานยาตรงเวลา</div>
+            <div class="tip-desc">
+                ตั้งนาฬิกาเตือนไม่ให้ลืมทานยา
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon">🍽️</div>
+        <div>
+            <div class="tip-title">ปฏิบัติตามคำแนะนำ</div>
+            <div class="tip-desc">
+                ทานก่อนอาหาร หลังอาหาร หรือพร้อมอาหารตามแพทย์สั่ง
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon">💧</div>
+        <div>
+            <div class="tip-title">ดื่มน้ำเปล่า</div>
+            <div class="tip-desc">
+                ทานยาพร้อมน้ำเปล่า หลีกเลี่ยงเครื่องดื่มอื่น
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon">🚫</div>
+        <div>
+            <div class="tip-title">ไม่หยุดยาเอง</div>
+            <div class="tip-desc">
+                ทานยาครบตามที่แพทย์กำหนด
+            </div>
+        </div>
+    </div>
+
+    <div class="tip-item">
+        <div class="tip-icon">🌡️</div>
+        <div>
+            <div class="tip-title">เก็บยาให้ถูกต้อง</div>
+            <div class="tip-desc">
+                เก็บในที่แห้ง เย็น และพ้นแสงแดด
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="section-title">
+        ➕ เพิ่มยา
+    </div>
+
+    <div class="form-group">
+        <label>ชื่อยา</label>
+        <input id="name" placeholder="เช่น Amlodipine">
+    </div>
+
+    <div class="row">
+
+        <div class="form-group">
+            <label>เวลาทานยา</label>
+            <input type="time" id="time">
+        </div>
+
+        <div class="form-group">
+            <label>ความถี่</label>
+            <select id="frequency">
+                <option>ทุกวัน</option>
+                <option>วันเว้นวัน</option>
+                <option>ทุกสัปดาห์</option>
+                <option>ตามอาการ</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label>คำแนะนำการใช้ยา</label>
+        <select id="instruction">
+            <option>ก่อนอาหาร</option>
+            <option>หลังอาหาร</option>
+            <option>พร้อมอาหาร</option>
+            <option>ก่อนนอน</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>ขนาดยา</label>
+        <input id="dose" placeholder="เช่น 1 เม็ด">
+    </div>
+
+    <div class="form-group">
+        <label>หมายเหตุ</label>
+        <textarea id="note"></textarea>
+    </div>
+
+    <button class="btn-add" onclick="addMedicine()">
+        เพิ่มยา
+    </button>
+
+</div>
